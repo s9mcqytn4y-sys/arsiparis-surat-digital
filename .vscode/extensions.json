@@ -1,0 +1,18 @@
+{
+    "recommendations": [
+        "bmewburn.vscode-intelephense-client",
+        "shufo.vscode-blade-formatter",
+        "onecentlin.laravel-blade",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+        "editorconfig.editorconfig",
+        "m1guelpf.better-pest",
+        "dracula-theme.theme-dracula",
+        "pkief.material-icon-theme",
+        "mikestead.dotenv",
+        "streetsidesoftware.code-spell-checker"
+    ],
+    "unwantedRecommendations": [
+        "eamodio.gitlens"
+    ]
+}
