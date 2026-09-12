@@ -12,12 +12,40 @@ use App\Livewire\Dashboard;
 use App\Livewire\Pengaturan\Dokumen;
 use App\Livewire\SuratKeluar;
 use App\Livewire\SuratMasuk;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Beranda pengalihan
 Route::get('/', function () {
     return Auth::check() ? redirect()->route('dashboard') : redirect()->route('login');
+});
+
+Route::get('/debug-check', function () {
+    try {
+        $dbPath = config('database.connections.sqlite.database');
+        $exists = file_exists((string) $dbPath);
+        $size = $exists ? filesize((string) $dbPath) : 0;
+        $users = User::all(['name', 'email']);
+
+        return response()->json([
+            'status' => 'ok',
+            'db_path' => $dbPath,
+            'db_exists' => $exists,
+            'db_size' => $size,
+            'app_key_set' => ! empty(config('app.key')),
+            'session_driver' => config('session.driver'),
+            'users' => $users,
+        ]);
+    } catch (Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'trace' => explode("\n", $e->getTraceAsString()),
+        ], 500);
+    }
 });
 
 // Autentikasi Kedinasan
