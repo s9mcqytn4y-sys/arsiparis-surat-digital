@@ -1,49 +1,74 @@
-# Laravel Vibe Starter 🚀
+# Arsiparis Surat Digital (University Edition) 🎓
 
-A modern, robust, and zero-trust engineered **Laravel 13.x** starter template designed for rapid web application development. Built with strict **Vibe Coding** architectural guidelines and optimized for the 2026 engineering standards.
+Sistem Tata Usaha dan Tata Kelola Naskah Dinas Digital Terpusat untuk Perguruan Tinggi (Universitas, Institut, Politeknik, Sekolah Tinggi) berbasis **Laravel 13.x** dan **PHP 8.4+**.
+
+Sistem ini dirancang khusus untuk mengelola tata kelola persuratan dinas multi-unit (Rektorat, Biro, Fakultas, Dekanat, Program Studi, LPPM, LPM) dengan nomor register otomatis anti-duplikasi (*pessimistic lock*), repositori dokumen digital ber-UUID v7 privat, pelacakan disposisi berjenjang, dan mesin cetak A4 berstandar naskah dinas universitas.
 
 ## 🌟 Tech Stack
 
-- **Framework**: Laravel 13.x, PHP 8.5+
-- **Frontend & Admin**: Filament 3.x, Tailwind CSS v4, Livewire 3
-- **Database**: SQLite (Local Default) -> PostgreSQL/MySQL (Production). *Primary keys use UUID v7*.
-- **Auth & Security**: Spatie Permission, Spatie Activitylog.
-- **Testing**: Pest v5 (Feature & Unit).
+- **Bahasa Pemrograman**: PHP 8.4+ (`declare(strict_types=1);` mutlak)
+- **Framework Web**: Laravel 13.x
+- **Frontend Reactive**: Livewire 3.x + Alpine.js 3.x + Tailwind CSS v4 (Oxide Engine)
+- **Komponen CRUD & Tabel**: Filament v3 Engine
+- **Mesin Grafik**: Chart.js 4.x
+- **Basis Data Pengembangan**: SQLite 3.x (`database/database.sqlite`)
+- **Basis Data Produksi**: PostgreSQL 16.x (Strict Mode, ANSI SQL, Hostinger VPS)
+- **Primary Key Standard**: UUID v7 (Time-ordered, anti-enumeration)
+- **Format Register Bisnis**: `REG-SM/YYYY/MM/####` (Masuk) & `REG-SK/YYYY/MM/####` (Keluar)
+- **Penyimpanan Berkas**: Protected Local Disk (`storage/app/private/`) + Signed Streaming Routes (15 Menit)
+- **RBAC & Audit Trail**: `spatie/laravel-permission` + `spatie/laravel-activitylog`
+- **Pengujian Otomatis**: Pest v5 (Feature, Unit, Concurrency, Arch Tests)
+- **CI/CD Pipeline**: GitHub Actions (`.github/workflows/ci.yml`)
 
-## 🚀 Features
+## 🏛️ Struktur Multi-Unit Kerja Kampus
 
-- **Zero Trust Security**: Strict IAM, OIDC/JWT handling, BOLA/IDOR defenses.
-- **Vibe Coding Ready**: Pre-configured `settings.json` for VS Code, PSR-12/PER CS 2.0 standards, and strict typing (`declare(strict_types=1)`).
-- **Environment Boundaries**: strict `.env` hierarchy, secret management rules, and configuration caching.
-- **Filament Admin Panel**: Out-of-the-box admin panel at `/admin` with unified login redirection.
+```text
+Universitas (Rektorat)
+├── Biro Akademik & Kemahasiswaan (BAAK)
+├── Biro Administrasi Umum & Keuangan (BAUK)
+├── Lembaga Penelitian & Pengabdian Masyarakat (LPPM)
+├── Lembaga Penjaminan Mutu (LPM)
+└── Fakultas (Dekanat)
+    ├── Program Studi Teknik Informatika
+    ├── Program Studi Sistem Informasi
+    └── Tata Usaha Fakultas
+```
 
-## 🛠️ Quick Start
+## 🛠️ Panduan Memulai Cepat (Local Development)
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/s9mcqytn4y-sys/laravel-starter.git
-cd laravel-starter
+# 1. Clone repositori
+git clone git@github.com:s9mcqytn4y-sys/arsiparis-surat-digital.git
+cd arsiparis-surat-digital
 
-# 2. Install dependencies
+# 2. Pasang dependensi PHP & Node
 composer install
 npm install
 
-# 3. Environment setup
+# 3. Konfigurasi berkas lingkungan
 cp .env.example .env
 php artisan key:generate
 
-# 4. Run migrations
+# 4. Jalankan migrasi & seeder master data kampus
 php artisan migrate:fresh --seed
 
-# 5. Start development servers
+# 5. Jalankan pengujian otomatis (Pest v5)
+php artisan test
+
+# 6. Jalankan server lokal
 php artisan serve
 npm run dev
 ```
 
-## 📜 Architecture Directives
+## 📜 Kepatuhan & Arsitektur
 
-Please refer to `GEMINI.md` for comprehensive architectural guidelines, security matrix, and execution directives expected from developers and AI agents operating on this codebase.
+Panduan lengkap mengenai arsitektur, konvensi penamaan, protokol keamanan Zero Trust (/007), serta aturan rekayasa perangkat lunak wajib merujuk ke:
 
-## 📄 License
+- `GEMINI.md`: Pedoman Utama & Aturan Pengembang.
+- `PRD.md`: Product Requirement Document (University Edition).
+- `SRS.md`: Software Requirements Specification & Schema Database.
+- `DESIGN.md`: University Design System & Component Guidelines.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📄 Lisensi
+
+Perangkat lunak ini dilisensikan di bawah lisensi kepemilikan terbatas untuk operasional Perguruan Tinggi.
