@@ -1,12 +1,16 @@
 {
     "recommendations": [
         "bmewburn.vscode-intelephense-client",
+        "amiralizadeh9480.laravel-extra-intellisense",
+        "codingyu.laravel-goto-view",
+        "stef-k.laravel-goto-controller",
         "shufo.vscode-blade-formatter",
         "onecentlin.laravel-blade",
         "bradlc.vscode-tailwindcss",
         "esbenp.prettier-vscode",
         "editorconfig.editorconfig",
         "m1guelpf.better-pest",
+        "ryannmantha.pest-snippets",
         "dracula-theme.theme-dracula",
         "pkief.material-icon-theme",
         "mikestead.dotenv",

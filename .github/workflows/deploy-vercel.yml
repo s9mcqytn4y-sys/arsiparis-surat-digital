@@ -9,6 +9,7 @@ jobs:
   deploy:
     name: Build & Deploy Demo to Vercel
     runs-on: ubuntu-latest
+    if: ${{ secrets.VERCEL_TOKEN != '' }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -30,5 +31,5 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID || 'hxXMoBd1YiygqaufBHkXHAbb' }}
           vercel-args: '--prod'

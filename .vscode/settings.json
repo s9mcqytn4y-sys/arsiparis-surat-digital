@@ -76,7 +76,6 @@
     "files.exclude": {
         "**/.git": true,
         "**/node_modules": true,
-        "**/vendor": true,
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
         "storage/framework/cache/**": true,
@@ -98,9 +97,27 @@
         "package-lock.json": true
     },
 
-    // ─── PHP Intelephense ─────────────────────────
-    "intelephense.environment.phpVersion": "8.5.0",
-    "intelephense.files.maxSize": 5000000,
+    // ─── PHP Intelephense & Language Server ────────
+    "intelephense.environment.phpVersion": "8.4.0",
+    "intelephense.files.maxSize": 10000000,
+    "intelephense.environment.includePaths": [
+        "vendor/**"
+    ],
+    "intelephense.diagnostics.undefinedTypes": false,
+    "intelephense.diagnostics.undefinedFunctions": false,
+    "intelephense.diagnostics.undefinedMethods": false,
+    "intelephense.diagnostics.undefinedProperties": false,
+    "intelephense.diagnostics.undefinedConstants": false,
+    "intelephense.diagnostics.undefinedClassConstants": false,
+    "intelephense.completion.insertUseDeclaration": true,
+    "intelephense.format.enable": true,
+
+    // ─── Laravel Extra Intellisense ────────────────
+    "LaravelExtraIntellisense.modelsPaths": [
+        "app/Models"
+    ],
+    "LaravelExtraIntellisense.basePathForCode": "",
+    "LaravelExtraIntellisense.viewAnalysis": true,
 
     // ─── Terminal ─────────────────────────────────
     "terminal.integrated.defaultProfile.windows": "PowerShell",

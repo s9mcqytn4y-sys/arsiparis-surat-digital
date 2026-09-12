@@ -49,6 +49,11 @@ jobs:
       - name: Security Vulnerability Audit
         run: composer audit
 
+      - name: Install NPM Dependencies & Build Assets
+        run: |
+          npm ci
+          npm run build
+
       - name: Prepare Application Environment
         run: |
           cp .env.example .env
@@ -58,8 +63,3 @@ jobs:
 
       - name: Run Test Suite (Pest v5)
         run: php artisan test --parallel
-
-      - name: Install NPM Dependencies & Build Assets
-        run: |
-          npm ci
-          npm run build

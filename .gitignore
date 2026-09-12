@@ -33,3 +33,4 @@ Thumbs.db
 # ─── IDE (VSCode is committed for team DX) ────
 /.idea
 /.fleet
+/.vercel
