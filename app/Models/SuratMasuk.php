@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\StatusDisposisi;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SuratMasuk extends Model
 {
@@ -26,9 +24,6 @@ class SuratMasuk extends Model
         'tanggal_surat',
         'tanggal_terima',
         'perihal',
-        'disposisi_kepada',
-        'instruksi_disposisi',
-        'status_disposisi',
         'file_path',
         'file_mime',
         'file_size',
@@ -43,7 +38,6 @@ class SuratMasuk extends Model
         return [
             'tanggal_surat' => 'date',
             'tanggal_terima' => 'date',
-            'status_disposisi' => StatusDisposisi::class,
             'file_size' => 'integer',
         ];
     }
@@ -54,22 +48,6 @@ class SuratMasuk extends Model
     public function unitKerja(): BelongsTo
     {
         return $this->belongsTo(UnitKerja::class, 'unit_kerja_id');
-    }
-
-    /**
-     * @return BelongsTo<Pegawai, $this>
-     */
-    public function pegawaiDisposisi(): BelongsTo
-    {
-        return $this->belongsTo(Pegawai::class, 'disposisi_kepada');
-    }
-
-    /**
-     * @return BelongsTo<Pegawai, $this>
-     */
-    public function disposisiPegawai(): BelongsTo
-    {
-        return $this->belongsTo(Pegawai::class, 'disposisi_kepada');
     }
 
     /**
@@ -86,13 +64,5 @@ class SuratMasuk extends Model
     public function pembuat(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
-    }
-
-    /**
-     * @return HasMany<RiwayatDisposisi, $this>
-     */
-    public function riwayatDisposisi(): HasMany
-    {
-        return $this->hasMany(RiwayatDisposisi::class, 'surat_masuk_id')->orderBy('created_at', 'asc');
     }
 }

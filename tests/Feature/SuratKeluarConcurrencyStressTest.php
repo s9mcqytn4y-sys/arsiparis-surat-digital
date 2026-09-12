@@ -26,7 +26,7 @@ test('generator nomor surat menghasilkan penomoran berurutan dan format bulan ro
 
     $master = MasterNomorSurat::create([
         'kode_klasifikasi' => 'B/KP.01.00',
-        'nama_klasifikasi' => 'Kepegawaian & Disposisi Rektorat',
+        'nama_klasifikasi' => 'Kepegawaian & Persuratan Rektorat',
         'format_pola' => '{nomor}/{kode}/{unit}/{bulan_romawi}/{tahun}',
         'nomor_terakhir' => 0,
         'tahun' => 2026,

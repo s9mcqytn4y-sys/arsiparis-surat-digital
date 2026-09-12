@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Livewire\SuratMasuk;
 
 use App\Actions\Documents\ValidateAndStoreDocumentAction;
-use App\Enums\StatusDisposisi;
 use App\Models\MasterOpsi;
 use App\Models\SuratMasuk;
 use App\Models\UnitKerja;
@@ -151,7 +150,6 @@ class Create extends Component
                 'tanggal_surat' => $this->tanggalSurat,
                 'tanggal_terima' => $this->tanggalTerima,
                 'perihal' => $this->perihal,
-                'status_disposisi' => StatusDisposisi::Menunggu,
                 'file_path' => $storedDoc->filePath,
                 'file_mime' => $storedDoc->fileMime,
                 'file_size' => $storedDoc->fileSize,

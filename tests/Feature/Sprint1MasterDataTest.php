@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Enums\KategoriArsip;
 use App\Enums\LevelUnitKerja;
-use App\Enums\StatusDisposisi;
 use App\Models\ArsipDigital;
 use App\Models\MasterNomorSurat;
 use App\Models\Pegawai;
@@ -82,16 +81,11 @@ test('surat masuk and surat keluar relations maintain referential integrity with
         'tanggal_surat' => '2026-09-10',
         'tanggal_terima' => '2026-09-12',
         'perihal' => 'Monitoring Hibah Program Studi',
-        'disposisi_kepada' => $pegawai->id,
-        'instruksi_disposisi' => 'Mohon ditindaklanjuti bersama tim prodi.',
-        'status_disposisi' => StatusDisposisi::Menunggu,
         'created_by' => $tuUser->id,
     ]);
 
     expect($suratMasuk->id)->not->toBeNull()
         ->and(Str::isUuid($suratMasuk->id))->toBeTrue()
-        ->and($suratMasuk->status_disposisi)->toBe(StatusDisposisi::Menunggu)
-        ->and($suratMasuk->pegawaiDisposisi->id)->toBe($pegawai->id)
         ->and($suratMasuk->unitKerja->id)->toBe($tuUser->unit_kerja_id);
 
     // Surat Keluar

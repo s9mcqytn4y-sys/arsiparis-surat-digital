@@ -19,9 +19,6 @@ return new class extends Migration
             $table->date('tanggal_surat');
             $table->date('tanggal_terima');
             $table->string('perihal');
-            $table->foreignUuid('disposisi_kepada')->nullable()->constrained('pegawai')->nullOnDelete();
-            $table->text('instruksi_disposisi')->nullable();
-            $table->string('status_disposisi', 30)->default('menunggu');
             $table->string('file_path')->nullable();
             $table->string('file_mime', 50)->nullable();
             $table->unsignedBigInteger('file_size')->nullable();
@@ -29,7 +26,6 @@ return new class extends Migration
             $table->timestamps();
 
             $table->index(['unit_kerja_id', 'nomor_agenda']);
-            $table->index(['unit_kerja_id', 'status_disposisi']);
             $table->index(['unit_kerja_id', 'tanggal_terima']);
         });
     }

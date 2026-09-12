@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Enums\LevelUnitKerja;
-use App\Enums\StatusDisposisi;
 use App\Livewire\Dashboard\Index;
 use App\Models\Pegawai;
 use App\Models\SuratKeluar;
@@ -63,7 +62,6 @@ test('komponen livewire dasbor memuat statistik dan aktivitas terbaru', function
         'perihal' => 'Undangan Rapat Koordinasi MBKM',
         'tanggal_surat' => "{$tahunIni}-09-01",
         'tanggal_terima' => "{$tahunIni}-09-05",
-        'status_disposisi' => StatusDisposisi::Selesai,
         'unit_kerja_id' => $unit->id,
         'created_by' => $user->id,
     ]);

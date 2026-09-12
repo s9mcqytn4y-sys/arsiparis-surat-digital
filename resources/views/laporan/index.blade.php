@@ -4,7 +4,7 @@
 <div class="space-y-6">
     <div class="border-b border-slate-200 pb-4">
         <h1 class="text-2xl font-bold text-slate-900">Laporan & Ekspor Kearsipan</h1>
-        <p class="text-sm text-slate-600 mt-1">Cetak buku agenda dinas, rekapitulasi korespondensi, dan laporan distribusi disposisi.</p>
+        <p class="text-sm text-slate-600 mt-1">Cetak buku agenda dinas, rekapitulasi korespondensi, dan laporan arsip naskah dinas.</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

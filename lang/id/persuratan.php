@@ -28,9 +28,9 @@ return [
         'dashboard' => 'Dashboard Tata Usaha',
         'surat_masuk' => 'Surat Masuk',
         'surat_keluar' => 'Surat Keluar',
-        'disposisi' => 'Pelacakan Disposisi',
         'arsip_digital' => 'Arsip Digital',
         'master_data' => 'Data Master',
+        'laporan' => 'Laporan & Buku Agenda',
         'profil' => 'Profil Pengguna',
     ],
 
@@ -45,10 +45,8 @@ return [
         'perihal' => 'Perihal Surat',
         'ringkasan' => 'Ringkasan Isi Surat',
         'berkas' => 'Berkas Pindaian (Format PDF Resmi)',
-        'status_disposisi' => 'Status Disposisi',
         'tindakan' => 'Aksi & Tindak Lanjut',
-        'disposisi_ke' => 'Disposisikan Kepada Pejabat',
-        'instruksi' => 'Instruksi / Catatan Pimpinan',
+        'unit_penerima' => 'Unit Kerja Penerima',
     ],
 
     // Surat Keluar
@@ -65,11 +63,11 @@ return [
 
     // Cetak & Keamanan
     'cetak' => [
-        'lembar_disposisi' => 'LEMBAR DISPOSISI SURAT DINAS',
+        'buku_agenda' => 'BUKU AGENDA PERSURATAN RESMI',
         'rahasia' => 'RAHASIA',
         'penting' => 'PENTING',
         'biasa' => 'BIASA',
         'paraf' => 'Tanda Tangan / Paraf Pejabat',
-        'tanggal_penyelesaian' => 'Batas Waktu Penyelesaian',
+        'tanggal_cetak' => 'Tanggal Cetak Dokumen',
     ],
 ];

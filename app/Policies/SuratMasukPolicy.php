@@ -37,15 +37,6 @@ final class SuratMasukPolicy
         return $user->hasRole('petugas_tu') && $user->unit_kerja_id === $surat->unit_kerja_id;
     }
 
-    public function disposisi(User $user, SuratMasuk $surat): bool
-    {
-        if ($user->hasRole('super_admin')) {
-            return true;
-        }
-
-        return $user->hasRole('pimpinan_unit') && $user->unit_kerja_id === $surat->unit_kerja_id;
-    }
-
     public function delete(User $user, SuratMasuk $surat): bool
     {
         return $user->hasRole('super_admin');

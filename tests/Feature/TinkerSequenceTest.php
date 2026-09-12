@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Enums\StatusDisposisi;
+use App\Actions\Surat\GenerateNomorSuratAction;
 use App\Models\ArsipDigital;
 use App\Models\MasterNomorSurat;
-use App\Models\Pegawai;
-use App\Models\RiwayatDisposisi;
 use App\Models\SuratKeluar;
 use App\Models\SuratMasuk;
 use App\Models\UnitKerja;
@@ -21,7 +19,7 @@ beforeEach(function (): void {
     Storage::fake('public');
 });
 
-test('sekuensi komprehensif persuratan: surat masuk, disposisi, surat keluar dan arsip digital', function (): void {
+test('sekuensi komprehensif persuratan: surat masuk, surat keluar dan arsip digital', function (): void {
     $admin = User::where('email', 'admin@universitas.ac.id')->firstOrFail();
     $unitKerja = UnitKerja::where('kode_unit', 'REK-01')->firstOrFail();
     $tujuanUnit = UnitKerja::where('kode_unit', 'FTIK-01')->firstOrFail();
@@ -57,7 +55,6 @@ test('sekuensi komprehensif persuratan: surat masuk, disposisi, surat keluar dan
         'file_path' => $storedPath,
         'file_mime' => 'application/pdf',
         'file_size' => strlen($pdfContent),
-        'status_disposisi' => StatusDisposisi::Menunggu,
         'created_by' => $admin->id,
     ]);
 
@@ -66,31 +63,10 @@ test('sekuensi komprehensif persuratan: surat masuk, disposisi, surat keluar dan
         ->and($suratMasuk->nomor_agenda)->toBe($nomorRegisterMasuk);
 
     // -------------------------------------------------------------
-    // Sequence 2: Disposisi Berjenjang Lintas Unit
-    // -------------------------------------------------------------
-    $rektorPegawai = Pegawai::where('unit_kerja_id', $unitKerja->id)->firstOrFail();
-    $tujuanPegawai = Pegawai::where('unit_kerja_id', $tujuanUnit->id)->firstOrFail();
-
-    $disposisi = RiwayatDisposisi::create([
-        'surat_masuk_id' => $suratMasuk->id,
-        'dari_pegawai_id' => $rektorPegawai->id,
-        'ke_pegawai_id' => $tujuanPegawai->id,
-        'instruksi' => 'Tindak lanjuti pembentukan tim proposal hibah penelitian FTIK.',
-        'catatan_tindak_lanjut' => 'Segera laporkan draft proposal sebelum akhir bulan.',
-        'status' => StatusDisposisi::Diproses,
-        'tenggat_waktu' => now()->addDays(7),
-    ]);
-
-    $suratMasuk->update(['status_disposisi' => StatusDisposisi::Diproses]);
-
-    expect($disposisi->id)->toBeString()
-        ->and($suratMasuk->fresh()->status_disposisi)->toBe(StatusDisposisi::Diproses);
-
-    // -------------------------------------------------------------
-    // Sequence 3: Surat Keluar & Anti-Race Generator
+    // Sequence 2: Surat Keluar & Anti-Race Generator
     // -------------------------------------------------------------
     $masterNomor = MasterNomorSurat::where('unit_kerja_id', $unitKerja->id)->firstOrFail();
-    $action = app(App\Actions\Surat\GenerateNomorSuratAction::class);
+    $action = app(GenerateNomorSuratAction::class);
     $result = $action->execute($masterNomor->id);
 
     expect($result->nomorSurat)->toBeString()

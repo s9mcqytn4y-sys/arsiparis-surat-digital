@@ -190,9 +190,7 @@
                     <th style="width: 140px;">No. Naskah & Tgl</th>
                     <th style="width: 150px;">Asal Pengirim</th>
                     <th>Perihal Naskah</th>
-                    <th style="width: 110px;">Unit Pengelola</th>
-                    <th style="width: 110px;">Disposisi Terakhir</th>
-                    <th style="width: 75px;">Status</th>
+                    <th style="width: 140px;">Unit Pengelola</th>
                 </tr>
             </thead>
             <tbody>
@@ -208,21 +206,12 @@
                         <td>{{ $surat->pengirim }}</td>
                         <td>
                             <div>{{ $surat->perihal }}</div>
-                            @if ($surat->catatan_disposisi)
-                                <div style="margin-top: 3px; font-size: 8pt; color: #4b5563; font-style: italic;">
-                                    Catatan: {{ $surat->catatan_disposisi }}
-                                </div>
-                            @endif
                         </td>
                         <td>{{ $surat->unitKerja?->nama_unit ?? '-' }}</td>
-                        <td>{{ $surat->disposisiPegawai?->nama_lengkap ?? '-' }}</td>
-                        <td class="text-center" style="font-weight: bold; font-size: 8pt;">
-                            {{ $surat->status_disposisi?->label() ?? $surat->status_disposisi?->value ?? '-' }}
-                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="9" class="text-center" style="padding: 20px; font-style: italic; color: #6b7280;">
+                        <td colspan="7" class="text-center" style="padding: 20px; font-style: italic; color: #6b7280;">
                             Tidak ditemukan data naskah surat masuk untuk kriteria dan rentang tanggal yang dipilih.
                         </td>
                     </tr>

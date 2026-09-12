@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CetakBukuAgendaController;
-use App\Http\Controllers\CetakDisposisiController;
 use App\Http\Controllers\DocumentStreamController;
 use App\Http\Controllers\LaporanCetakController;
 use App\Http\Controllers\ProfileController;
@@ -42,7 +41,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/surat-masuk', SuratMasuk\Index::class)->name('surat-masuk.index');
     Route::get('/surat-masuk/buat', SuratMasuk\Create::class)->name('surat-masuk.create');
     Route::get('/surat-masuk/cetak-agenda', CetakBukuAgendaController::class)->name('cetak.buku-agenda');
-    Route::get('/cetak/disposisi/{surat}', CetakDisposisiController::class)->name('cetak.disposisi');
 
     // Naskah Keluar
     Route::get('/surat-keluar', SuratKeluar\Index::class)->name('surat-keluar.index');

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Livewire\SuratMasuk;
 
-use App\Enums\StatusDisposisi;
 use App\Models\MasterOpsi;
 use App\Models\SuratMasuk;
 use App\Models\UnitKerja;
@@ -268,7 +267,6 @@ class Index extends Component
                 'tanggal_surat' => $validated['tanggal_surat'],
                 'tanggal_terima' => Carbon::today(),
                 'perihal' => trim($validated['perihal']),
-                'status_disposisi' => StatusDisposisi::MENUNGGU,
                 'file_path' => $filePath,
                 'file_mime' => $fileMime,
                 'file_size' => $fileSize,

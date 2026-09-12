@@ -25,6 +25,21 @@ if (getenv('VERCEL') || getenv('AWS_LAMBDA_FUNCTION_NAME')) {
     putenv('APP_ROUTES_CACHE=/tmp/bootstrap/cache/routes.php');
     putenv('APP_SERVICES_CACHE=/tmp/bootstrap/cache/services.php');
     putenv('VIEW_COMPILED_PATH=/tmp/storage/framework/views');
+
+    // Prepare SQLite database in /tmp if external pgsql is not configured
+    if (! getenv('DATABASE_URL') && (! getenv('DB_CONNECTION') || getenv('DB_CONNECTION') === 'sqlite')) {
+        $targetSqlite = '/tmp/database.sqlite';
+        if (! file_exists($targetSqlite)) {
+            $sourceSqlite = __DIR__.'/../database/database.sqlite';
+            if (file_exists($sourceSqlite)) {
+                @copy($sourceSqlite, $targetSqlite);
+            } else {
+                @touch($targetSqlite);
+            }
+        }
+        putenv('DB_CONNECTION=sqlite');
+        putenv('DB_DATABASE='.$targetSqlite);
+    }
 }
 
 // Forward execution to Laravel public entrypoint

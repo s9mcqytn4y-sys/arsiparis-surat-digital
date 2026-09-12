@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Enums\LevelUnitKerja;
-use App\Enums\StatusDisposisi;
 use App\Models\Pegawai;
 use App\Models\SuratMasuk;
 use App\Models\UnitKerja;
@@ -41,9 +40,6 @@ test('ekspor CSV buku agenda menyertakan UTF-8 BOM dan kolom naskah masuk secara
         'tanggal_surat' => '2026-09-10',
         'tanggal_terima' => '2026-09-12',
         'unit_kerja_id' => $unit->id,
-        'disposisi_kepada' => $pegawai->id,
-        'status_disposisi' => StatusDisposisi::Diproses,
-        'catatan_disposisi' => 'Segera koordinasi LPPM',
         'created_by' => $user->id,
     ]);
 
@@ -67,7 +63,6 @@ test('ekspor CSV buku agenda menyertakan UTF-8 BOM dan kolom naskah masuk secara
         ->and($content)->toContain('045/DIKTI/IX/2026')
         ->and($content)->toContain('Kementerian Pendidikan Tinggi')
         ->and($content)->toContain('Penyaluran Hibah Penelitian Kampus')
-        ->and($content)->toContain('Prof. Dr. Pejabat, M.Sc.')
         ->and($content)->toContain('Kantor Rektorat');
 });
 
@@ -89,7 +84,6 @@ test('ekspor PDF buku agenda menghasilkan stream dokumen PDF landscape', functio
         'tanggal_surat' => '2026-09-11',
         'tanggal_terima' => '2026-09-12',
         'unit_kerja_id' => $unit->id,
-        'status_disposisi' => StatusDisposisi::Menunggu,
         'created_by' => $user->id,
     ]);
 
@@ -124,7 +118,6 @@ test('tampilan pratinjau cetak browser menampilkan kop surat dan tabel dinas', f
         'tanggal_surat' => '2026-09-10',
         'tanggal_terima' => '2026-09-12',
         'unit_kerja_id' => $unit->id,
-        'status_disposisi' => StatusDisposisi::Diproses,
         'created_by' => $user->id,
     ]);
 
@@ -167,7 +160,6 @@ test('pembatasan data buku agenda berdasarkan unit kerja pengguna non-admin (uni
         'tanggal_surat' => '2026-09-05',
         'tanggal_terima' => '2026-09-12',
         'unit_kerja_id' => $unitRektorat->id,
-        'status_disposisi' => StatusDisposisi::Menunggu,
         'created_by' => $stafTuFakultas->id,
     ]);
 
@@ -180,7 +172,6 @@ test('pembatasan data buku agenda berdasarkan unit kerja pengguna non-admin (uni
         'tanggal_surat' => '2026-09-08',
         'tanggal_terima' => '2026-09-12',
         'unit_kerja_id' => $unitFakultas->id,
-        'status_disposisi' => StatusDisposisi::Menunggu,
         'created_by' => $stafTuFakultas->id,
     ]);
 

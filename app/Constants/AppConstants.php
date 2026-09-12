@@ -20,7 +20,7 @@ final class AppConstants
 
     public const string TITLE_SURAT_MASUK = 'Pencatatan Surat Masuk';
 
-    public const string SUBTITLE_SURAT_MASUK = 'Registrasi, disposisi, dan pelacakan surat masuk di lingkungan perguruan tinggi.';
+    public const string SUBTITLE_SURAT_MASUK = 'Registrasi, verifikasi, dan pelacakan surat masuk di lingkungan perguruan tinggi.';
 
     public const string TITLE_SURAT_KELUAR = 'Penerbitan Surat Keluar';
 

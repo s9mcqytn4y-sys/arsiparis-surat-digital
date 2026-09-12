@@ -27,7 +27,7 @@ class CetakBukuAgendaController extends Controller
         $exportFormat = $request->query('export'); // 'pdf' | 'csv' | null (print HTML)
 
         $query = SuratMasuk::query()
-            ->with(['unitKerja', 'disposisiPegawai', 'pembuat'])
+            ->with(['unitKerja', 'pembuat'])
             ->whereBetween('tanggal_terima', [$startDate, $endDate])
             ->orderBy('nomor_agenda', 'asc');
 
@@ -66,9 +66,6 @@ class CetakBukuAgendaController extends Controller
                     'Pengirim',
                     'Perihal',
                     'Unit Kerja Pengelola',
-                    'Disposisi Kepada',
-                    'Status Disposisi',
-                    'Catatan Disposisi',
                 ]);
 
                 foreach ($daftarSurat as $surat) {
@@ -80,9 +77,6 @@ class CetakBukuAgendaController extends Controller
                         $surat->pengirim,
                         $surat->perihal,
                         $surat->unitKerja?->nama_unit ?? '-',
-                        $surat->disposisiPegawai?->nama ?? '-',
-                        $surat->status_disposisi?->label() ?? $surat->status_disposisi?->value ?? '-',
-                        $surat->catatan_disposisi ?? '-',
                     ]);
                 }
 

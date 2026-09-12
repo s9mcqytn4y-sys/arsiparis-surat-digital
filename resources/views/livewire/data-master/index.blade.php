@@ -461,7 +461,7 @@
                             <button
                                 type="button"
                                 wire:click="$set('modalPegawaiOpen', false)"
-                                class="px-5 py-2 rounded-xl bg-[#1e293b] hover:bg-slate-800 text-white text-xs font-semibold transition cursor-pointer"
+                                class="px-5 py-2 rounded-xl bg-univ-blue hover:bg-slate-800 text-white text-xs font-semibold transition cursor-pointer"
                             >
                                 Batal
                             </button>
@@ -565,7 +565,7 @@
                             <button
                                 type="button"
                                 wire:click="$set('modalNomorSuratOpen', false)"
-                                class="px-5 py-2 rounded-xl bg-[#1e293b] hover:bg-slate-800 text-white text-xs font-semibold transition cursor-pointer"
+                                class="px-5 py-2 rounded-xl bg-univ-blue hover:bg-slate-800 text-white text-xs font-semibold transition cursor-pointer"
                             >
                                 Batal
                             </button>
@@ -689,7 +689,7 @@
                             <button
                                 type="button"
                                 wire:click="$set('modalAdminOpen', false)"
-                                class="px-5 py-2 rounded-xl bg-[#1e293b] hover:bg-slate-800 text-white text-xs font-semibold transition cursor-pointer"
+                                class="px-5 py-2 rounded-xl bg-univ-blue hover:bg-slate-800 text-white text-xs font-semibold transition cursor-pointer"
                             >
                                 Batal
                             </button>
@@ -742,7 +742,7 @@
                             <button
                                 type="button"
                                 wire:click="$set('modalImportOpen', false)"
-                                class="px-5 py-2 rounded-xl bg-[#1e293b] hover:bg-slate-800 text-white text-xs font-semibold transition cursor-pointer"
+                                class="px-5 py-2 rounded-xl bg-univ-blue hover:bg-slate-800 text-white text-xs font-semibold transition cursor-pointer"
                             >
                                 Batal
                             </button>

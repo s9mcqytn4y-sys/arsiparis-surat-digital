@@ -1,4 +1,5 @@
 User-agent: *
+Allow: /
 Allow: /login
 Disallow: /dashboard
 Disallow: /surat-masuk
@@ -8,3 +9,6 @@ Disallow: /laporan
 Disallow: /data-master
 Disallow: /pengaturan
 Disallow: /documents/
+Disallow: /api/
+
+Sitemap: https://arsiparis-surat-digital-eight.vercel.app/sitemap.xml

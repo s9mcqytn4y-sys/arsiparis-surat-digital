@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\StatusDisposisi;
 use App\Models\SuratMasuk;
 use App\Models\UnitKerja;
 use App\Models\User;
@@ -31,7 +30,6 @@ class SuratMasukSeeder extends Seeder
                 'tanggal_surat' => '2026-01-10',
                 'tanggal_terima' => '2026-01-12',
                 'perihal' => 'Undangan Monitoring Kearsipan Digital dan Akreditasi Perguruan Tinggi',
-                'status_disposisi' => StatusDisposisi::Selesai,
             ],
             [
                 'unit_kerja_id' => $unitFTIK->id,
@@ -41,7 +39,6 @@ class SuratMasukSeeder extends Seeder
                 'tanggal_surat' => '2026-02-05',
                 'tanggal_terima' => '2026-02-07',
                 'perihal' => 'Pemberitahuan Program Beasiswa Unggulan Dosen dan Tenaga Kependidikan',
-                'status_disposisi' => StatusDisposisi::Selesai,
             ],
             [
                 'unit_kerja_id' => $unitFTIK->id,
@@ -51,7 +48,6 @@ class SuratMasukSeeder extends Seeder
                 'tanggal_surat' => '2026-03-15',
                 'tanggal_terima' => '2026-03-18',
                 'perihal' => 'Penyampaian Sertifikat Akreditasi Unggul Program Studi Teknik Informatika',
-                'status_disposisi' => StatusDisposisi::Selesai,
             ],
             [
                 'unit_kerja_id' => $unitRektorat->id,
@@ -61,7 +57,6 @@ class SuratMasukSeeder extends Seeder
                 'tanggal_surat' => '2026-04-02',
                 'tanggal_terima' => '2026-04-04',
                 'perihal' => 'Tawaran Kerjasama Riset Pengabdian Masyarakat Berbasis Teknologi Informasi',
-                'status_disposisi' => StatusDisposisi::Diproses,
             ],
             [
                 'unit_kerja_id' => $unitFTIK->id,
@@ -71,7 +66,6 @@ class SuratMasukSeeder extends Seeder
                 'tanggal_surat' => '2026-05-12',
                 'tanggal_terima' => '2026-05-14',
                 'perihal' => 'Permohonan Alokasi Mahasiswa Magang MBKM Semester Gasal 2026/2027',
-                'status_disposisi' => StatusDisposisi::Menunggu,
             ],
         ];
 

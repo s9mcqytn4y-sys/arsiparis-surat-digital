@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full" x-data="{ darkMode: localStorage.getItem('theme') === 'dark' }" :class="{ 'dark': darkMode }">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full" x-data="{ darkMode: localStorage.getItem('theme') === 'dark' }" :class="{ 'dark': darkMode }">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="Portal Tata Usaha dan Persuratan Digital Terpusat Perguruan Tinggi">
-    <meta name="author" content="Universitas Digital Nusantara">
+    <meta name="application-name" content="{{ config('app.name', 'Arsiparis Surat Digital') }}">
+    <meta name="description" content="Portal Tata Usaha dan Persuratan Digital Terpusat Perguruan Tinggi - Universitas Digital Nusantara">
+    <meta name="author" content="{{ config('university.name', 'Universitas Digital Nusantara') }}">
     <meta name="theme-color" content="#0d7a78">
     <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ url()->current() }}">
 
     <!-- Anti-Jitter Instant Theme Application -->
     <script>
@@ -21,10 +25,35 @@
         })();
     </script>
 
-    <!-- OpenGraph SEO Metadata -->
-    <meta property="og:title" content="{{ config('university.name', 'Arsiparis Surat Digital') }}">
-    <meta property="og:description" content="Portal Tata Usaha & Kearsipan Surat Terpusat">
+    <!-- OpenGraph & Social Metadata -->
+    <meta property="og:title" content="@yield('title', 'Beranda') | {{ config('university.name', 'Arsiparis Surat Digital') }}">
+    <meta property="og:description" content="Sistem Tata Usaha & Kearsipan Naskah Dinas Terpusat Perguruan Tinggi">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:site_name" content="{{ config('app.name', 'Arsiparis Surat Digital') }}">
+    <meta property="og:locale" content="{{ app()->getLocale() === 'en' ? 'en_US' : 'id_ID' }}">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('title', 'Beranda') | {{ config('university.name', 'Arsiparis Surat Digital') }}">
+    <meta name="twitter:description" content="Portal Tata Usaha & Persuratan Digital Terpusat Perguruan Tinggi">
+
+    <!-- JSON-LD Structured Data Schema -->
+    <script type="application/ld+json">
+    {!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'SoftwareApplication',
+        'name' => config('app.name', 'Arsiparis Surat Digital'),
+        'applicationCategory' => 'BusinessApplication',
+        'operatingSystem' => 'All',
+        'description' => 'Sistem Informasi Tata Usaha dan Kearsipan Naskah Dinas Digital Perguruan Tinggi',
+        'offers' => [
+            '@type' => 'Offer',
+            'price' => '0',
+            'priceCurrency' => 'IDR',
+        ],
+    ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+    </script>
 
     <title>@yield('title', 'Beranda') | {{ config('university.name', 'Arsiparis Surat Digital') }}</title>
 

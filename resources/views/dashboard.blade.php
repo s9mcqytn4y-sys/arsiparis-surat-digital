@@ -152,7 +152,7 @@
                         <th scope="col" class="px-5 py-3.5">Tanggal</th>
                         <th scope="col" class="px-5 py-3.5">Pengirim / Tujuan</th>
                         <th scope="col" class="px-5 py-3.5">Perihal</th>
-                        <th scope="col" class="px-5 py-3.5">Status</th>
+                        <th scope="col" class="px-5 py-3.5">Unit Kerja</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 bg-white">
@@ -173,13 +173,9 @@
                             <td class="px-5 py-3.5 text-xs text-slate-900 max-w-xs truncate">
                                 {{ $surat->perihal }}
                             </td>
-                            <td class="px-5 py-3.5 whitespace-nowrap">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold
-                                    {{ $surat->status_disposisi === \App\Enums\StatusDisposisi::MENUNGGU ? 'bg-amber-100 text-amber-800' : '' }}
-                                    {{ $surat->status_disposisi === \App\Enums\StatusDisposisi::DITERUSKAN ? 'bg-sky-100 text-sky-800' : '' }}
-                                    {{ $surat->status_disposisi === \App\Enums\StatusDisposisi::SELESAI ? 'bg-emerald-100 text-emerald-800' : '' }}
-                                ">
-                                    {{ $surat->status_disposisi->label() }}
+                            <td class="px-5 py-3.5 whitespace-nowrap text-xs text-slate-700">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-800">
+                                    {{ $surat->unitKerja?->nama_unit ?? '-' }}
                                 </span>
                             </td>
                         </tr>

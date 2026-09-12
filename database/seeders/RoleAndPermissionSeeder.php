@@ -27,7 +27,6 @@ class RoleAndPermissionSeeder extends Seeder
             'create_surat_masuk',
             'edit_surat_masuk',
             'delete_surat_masuk',
-            'disposisi_surat_masuk',
             'view_surat_keluar',
             'create_surat_keluar',
             'edit_surat_keluar',
@@ -65,7 +64,6 @@ class RoleAndPermissionSeeder extends Seeder
         $pimpinanUnit->givePermissionTo([
             'view_dashboard',
             'view_surat_masuk',
-            'disposisi_surat_masuk',
             'view_surat_keluar',
             'view_arsip_digital',
             'export_reports',

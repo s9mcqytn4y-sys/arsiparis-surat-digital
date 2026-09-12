@@ -48,14 +48,6 @@ class Pegawai extends Model
     }
 
     /**
-     * @return HasMany<SuratMasuk, $this>
-     */
-    public function disposisiSuratMasuk(): HasMany
-    {
-        return $this->hasMany(SuratMasuk::class, 'disposisi_kepada');
-    }
-
-    /**
      * @return HasMany<ArsipDigital, $this>
      */
     public function arsipDigital(): HasMany
