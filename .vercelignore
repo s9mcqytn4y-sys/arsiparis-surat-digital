@@ -1,0 +1,15 @@
+.git
+.github
+tests
+vendor
+node_modules
+docs
+.agents
+storage/logs/*.log
+database/*.sqlite
+database/*.sqlite-shm
+database/*.sqlite-wal
+.env
+.env.example
+phpunit.xml
+README.md

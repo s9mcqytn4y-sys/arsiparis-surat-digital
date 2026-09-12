@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\DataMaster;
 
+use App\Constants\AppConstants;
 use App\Livewire\Concerns\HasSmartOpsi;
 use App\Models\MasterNomorSurat;
 use App\Models\MasterOpsi;
@@ -14,8 +15,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -361,15 +362,69 @@ class Index extends Component
     }
 
     // ==========================================
-    // BACKUP & IMPORT ACTIONS
+    // BACKUP, EXPORT & IMPORT ACTIONS
     // ==========================================
+    public function exportPegawaiCsv(): StreamedResponse
+    {
+        $filename = 'Export_Pegawai_'.date('Ymd_His').'.csv';
+        $pegawai = Pegawai::with('unitKerja')->latest()->get();
+
+        return response()->streamDownload(function () use ($pegawai): void {
+            // Send UTF-8 BOM for Microsoft Excel compatibility
+            echo "\xEF\xBB\xBF";
+            $handle = fopen('php://output', 'w');
+            if ($handle !== false) {
+                fputcsv($handle, ['NIP / NIDN', 'Nama Lengkap', 'Jabatan', 'Pangkat / Golongan', 'Unit Kerja']);
+                foreach ($pegawai as $p) {
+                    fputcsv($handle, [
+                        $p->nip_nidn,
+                        $p->nama,
+                        $p->jabatan,
+                        $p->golongan ?? '-',
+                        $p->unitKerja?->nama_unit ?? '-',
+                    ]);
+                }
+                fclose($handle);
+            }
+        }, $filename, [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+        ]);
+    }
+
+    public function exportNomorSuratCsv(): StreamedResponse
+    {
+        $filename = 'Export_NomorSurat_'.date('Ymd_His').'.csv';
+        $nomorSurat = MasterNomorSurat::with('unitKerja')->latest()->get();
+
+        return response()->streamDownload(function () use ($nomorSurat): void {
+            echo "\xEF\xBB\xBF";
+            $handle = fopen('php://output', 'w');
+            if ($handle !== false) {
+                fputcsv($handle, ['Nomor / Pola Format', 'Jenis Surat', 'Unit Kerja', 'Tanggal Dibuat', 'Keterangan', 'Status']);
+                foreach ($nomorSurat as $ns) {
+                    fputcsv($handle, [
+                        $ns->nomor_surat,
+                        $ns->jenis_surat,
+                        $ns->unitKerja?->nama_unit ?? 'Semua Unit',
+                        $ns->tanggal_dibuat?->format('d/m/Y') ?? '-',
+                        $ns->keterangan ?? '-',
+                        $ns->status ? 'Aktif' : 'Nonaktif',
+                    ]);
+                }
+                fclose($handle);
+            }
+        }, $filename, [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+        ]);
+    }
+
     public function backupData(): StreamedResponse
     {
         $filename = 'Backup_MasterData_'.date('Ymd_His').'.json';
 
-        $payload = [
-            'exported_at' => Carbon::now()->toIso8601String(),
-            'app_name' => \App\Constants\AppConstants::APP_NAME,
+        $dataRecords = [
             'pegawai' => Pegawai::all()->toArray(),
             'master_nomor_surat' => MasterNomorSurat::all()->toArray(),
             'master_opsi' => MasterOpsi::all()->toArray(),
@@ -383,6 +438,24 @@ class Index extends Component
                     'role' => $u->roles->first()?->name,
                 ];
             })->toArray(),
+        ];
+
+        $serializedData = (string) json_encode($dataRecords, JSON_UNESCAPED_UNICODE);
+        $checksumSha256 = hash('sha256', $serializedData);
+
+        $payload = [
+            'metadata' => [
+                'app_name' => AppConstants::APP_NAME,
+                'exported_at' => Carbon::now()->toIso8601String(),
+                'checksum_sha256' => $checksumSha256,
+                'record_count' => [
+                    'pegawai' => count($dataRecords['pegawai']),
+                    'master_nomor_surat' => count($dataRecords['master_nomor_surat']),
+                    'master_opsi' => count($dataRecords['master_opsi']),
+                    'users' => count($dataRecords['users']),
+                ],
+            ],
+            'data' => $dataRecords,
         ];
 
         return response()->streamDownload(function () use ($payload): void {
@@ -408,27 +481,43 @@ class Index extends Component
         ]);
 
         if ($this->importFile instanceof UploadedFile) {
-            $content = file_get_contents($this->importFile->getRealPath());
-            $data = json_decode($content, true);
+            $content = (string) file_get_contents($this->importFile->getRealPath());
+            $json = json_decode($content, true);
 
-            if (! is_array($data)) {
+            if (! is_array($json)) {
                 $this->addError('importFile', 'Format isi berkas JSON tidak valid.');
 
                 return;
             }
 
-            // Restore Master Opsi
-            if (isset($data['master_opsi']) && is_array($data['master_opsi'])) {
-                foreach ($data['master_opsi'] as $opsi) {
-                    if (isset($opsi['kategori'], $opsi['nilai_opsi'])) {
-                        MasterOpsi::simpanJikaBaru($opsi['kategori'], $opsi['nilai_opsi']);
-                    }
+            // Verify structure: support both legacy and new checksum formats
+            $data = isset($json['data']) && is_array($json['data']) ? $json['data'] : $json;
+
+            // Optional checksum check
+            if (isset($json['metadata']['checksum_sha256'])) {
+                $expected = $json['metadata']['checksum_sha256'];
+                $actual = hash('sha256', (string) json_encode($data, JSON_UNESCAPED_UNICODE));
+                if (! hash_equals($expected, $actual)) {
+                    $this->addError('importFile', 'Peringatan: Hash integritas SHA-256 berkas cadangan tidak sesuai.');
+
+                    return;
                 }
             }
 
+            DB::transaction(function () use ($data): void {
+                // Restore Master Opsi
+                if (isset($data['master_opsi']) && is_array($data['master_opsi'])) {
+                    foreach ($data['master_opsi'] as $opsi) {
+                        if (isset($opsi['kategori'], $opsi['nilai_opsi'])) {
+                            MasterOpsi::simpanJikaBaru($opsi['kategori'], $opsi['nilai_opsi']);
+                        }
+                    }
+                }
+            });
+
             $this->modalImportOpen = false;
             $this->importFile = null;
-            $this->dispatch('show-toast', type: 'success', message: 'Data master berhasil dipulihkan dari berkas cadangan.');
+            $this->dispatch('show-toast', type: 'success', message: 'Data master berhasil diverifikasi integritasnya dan dipulihkan.');
         }
     }
 

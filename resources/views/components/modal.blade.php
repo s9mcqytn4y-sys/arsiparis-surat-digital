@@ -23,9 +23,9 @@ $maxWidthClass = match ($maxWidth) {
 @if($show)
 <div class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-        <!-- Backdrop -->
+        <!-- Backdrop (Crisp Overlay without excessive screen blur) -->
         <div
-            class="fixed inset-0 transition-opacity bg-slate-900/60 backdrop-blur-xs"
+            class="fixed inset-0 transition-opacity bg-slate-900/40"
             aria-hidden="true"
             wire:click="{{ $onClose }}"
         ></div>

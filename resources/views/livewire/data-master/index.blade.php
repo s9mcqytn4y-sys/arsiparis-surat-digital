@@ -71,14 +71,27 @@
         <div class="space-y-4">
             <div class="flex items-center justify-between">
                 <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">Data Pegawai</h2>
-                <button
-                    type="button"
-                    wire:click="openPegawaiModal"
-                    class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0d7a78] hover:bg-[#0a5c5a] text-white text-xs font-semibold shadow-xs transition cursor-pointer active:scale-95"
-                >
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v16.5m8-8.5H4"/></svg>
-                    <span>Tambah Pegawai</span>
-                </button>
+                <div class="flex items-center gap-2">
+                    <button
+                        type="button"
+                        wire:click="exportPegawaiCsv"
+                        class="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs font-semibold shadow-xs transition cursor-pointer active:scale-95"
+                        title="Ekspor CSV Pegawai"
+                    >
+                        <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v13.5m0 0l-4.5-4.5M12 16.5l4.5-4.5M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5" />
+                        </svg>
+                        <span>Ekspor CSV</span>
+                    </button>
+                    <button
+                        type="button"
+                        wire:click="openPegawaiModal"
+                        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0d7a78] hover:bg-[#0a5c5a] text-white text-xs font-semibold shadow-xs transition cursor-pointer active:scale-95"
+                    >
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v16.5m8-8.5H4"/></svg>
+                        <span>Tambah Pegawai</span>
+                    </button>
+                </div>
             </div>
 
             <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 shadow-xs overflow-hidden transition-colors">
@@ -158,14 +171,27 @@
         <div class="space-y-4">
             <div class="flex items-center justify-between">
                 <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">Manajemen Nomor Surat</h2>
-                <button
-                    type="button"
-                    wire:click="openNomorSuratModal"
-                    class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0d7a78] hover:bg-[#0a5c5a] text-white text-xs font-semibold shadow-xs transition cursor-pointer active:scale-95"
-                >
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v16.5m8-8.5H4"/></svg>
-                    <span>Tambah Nomor Surat</span>
-                </button>
+                <div class="flex items-center gap-2">
+                    <button
+                        type="button"
+                        wire:click="exportNomorSuratCsv"
+                        class="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs font-semibold shadow-xs transition cursor-pointer active:scale-95"
+                        title="Ekspor CSV Nomor Surat"
+                    >
+                        <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v13.5m0 0l-4.5-4.5M12 16.5l4.5-4.5M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5" />
+                        </svg>
+                        <span>Ekspor CSV</span>
+                    </button>
+                    <button
+                        type="button"
+                        wire:click="openNomorSuratModal"
+                        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0d7a78] hover:bg-[#0a5c5a] text-white text-xs font-semibold shadow-xs transition cursor-pointer active:scale-95"
+                    >
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v16.5m8-8.5H4"/></svg>
+                        <span>Tambah Nomor Surat</span>
+                    </button>
+                </div>
             </div>
 
             <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 shadow-xs overflow-hidden transition-colors">

@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use App\Livewire\Laporan\Index;
+use App\Livewire\Pengaturan\Dokumen;
 use App\Models\PengaturanDokumen;
 use App\Models\SuratMasuk;
 use App\Models\UnitKerja;
 use App\Models\User;
+use Database\Seeders\PengaturanDokumenSeeder;
+use Database\Seeders\RoleAndPermissionSeeder;
+use Database\Seeders\UnitKerjaSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -20,9 +25,9 @@ class LaporanPageTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(\Database\Seeders\RoleAndPermissionSeeder::class);
-        $this->seed(\Database\Seeders\UnitKerjaSeeder::class);
-        $this->seed(\Database\Seeders\PengaturanDokumenSeeder::class);
+        $this->seed(RoleAndPermissionSeeder::class);
+        $this->seed(UnitKerjaSeeder::class);
+        $this->seed(PengaturanDokumenSeeder::class);
     }
 
     public function test_pengguna_terotentikasi_dapat_mengakses_halaman_laporan(): void
@@ -56,7 +61,7 @@ class LaporanPageTest extends TestCase
         ]);
 
         Livewire::actingAs($user)
-            ->test(\App\Livewire\Laporan\Index::class)
+            ->test(Index::class)
             ->call('tampilkanLaporan')
             ->assertSet('totalSuratMasuk', 1)
             ->assertSet('totalDokumen', 1)
@@ -70,7 +75,7 @@ class LaporanPageTest extends TestCase
         $user->assignRole('petugas_tu');
 
         Livewire::actingAs($user)
-            ->test(\App\Livewire\Laporan\Index::class)
+            ->test(Index::class)
             ->call('exportExcel')
             ->assertFileDownloaded();
     }
@@ -95,7 +100,7 @@ class LaporanPageTest extends TestCase
         $user->assignRole('super_admin');
 
         Livewire::actingAs($user)
-            ->test(\App\Livewire\Pengaturan\Dokumen::class)
+            ->test(Dokumen::class)
             ->set('nama_institusi', 'Universitas Digital Indonesia')
             ->set('alamat_lengkap', 'Jl. Merdeka No. 45, Semarang')
             ->set('kota_penerbitan', 'Semarang')

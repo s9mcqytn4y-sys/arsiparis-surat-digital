@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Livewire\Laporan;
 
-use App\Constants\AppConstants;
 use App\Models\ArsipDigital;
 use App\Models\PengaturanDokumen;
 use App\Models\SuratKeluar;
@@ -17,6 +16,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url as UrlParam;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 #[Layout('layouts.app')]
 class Index extends Component
@@ -146,7 +146,7 @@ class Index extends Component
         );
     }
 
-    public function exportExcel(): \Symfony\Component\HttpFoundation\StreamedResponse
+    public function exportExcel(): StreamedResponse
     {
         $filename = 'Laporan_Kearsipan_'.date('Ymd_His').'.csv';
 
@@ -159,7 +159,7 @@ class Index extends Component
             }
 
             // UTF-8 BOM untuk MS Excel
-            fputs($handle, "\xEF\xBB\xBF");
+            fwrite($handle, "\xEF\xBB\xBF");
 
             fputcsv($handle, ['LAPORAN REKAPITULASI DOKUMEN & SURAT DINAS']);
             fputcsv($handle, ['Periode', $this->appliedDari.' s/d '.$this->appliedSampai]);

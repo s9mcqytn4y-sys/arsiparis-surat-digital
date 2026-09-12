@@ -8,7 +8,6 @@ use App\Actions\Documents\ValidateAndStoreDocumentAction;
 use App\Actions\Surat\GenerateNomorSuratAction;
 use App\Models\MasterNomorSurat;
 use App\Models\MasterOpsi;
-use App\Models\Pegawai;
 use App\Models\SuratKeluar;
 use App\Models\UnitKerja;
 use Carbon\Carbon;

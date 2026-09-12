@@ -8,6 +8,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
@@ -82,9 +83,9 @@ class User extends Authenticatable
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<Pegawai, $this>
+     * @return HasOne<Pegawai, $this>
      */
-    public function pegawai(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function pegawai(): HasOne
     {
         return $this->hasOne(Pegawai::class, 'email', 'email');
     }

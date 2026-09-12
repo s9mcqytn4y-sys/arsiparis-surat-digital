@@ -182,17 +182,38 @@
                         <!-- In-App Notification Center Badge -->
                         @livewire('common.notification-badge')
 
-                        <!-- User Pill Button -> Profile Link -->
-                        <a
-                            href="{{ route('profile.edit') }}"
-                            title="Buka Profil Pengguna"
-                            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0a5c5a] dark:bg-slate-700 hover:bg-[#0e706e] dark:hover:bg-slate-600 border border-teal-600/50 dark:border-slate-600 text-white text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shrink-0 whitespace-nowrap cursor-pointer active:scale-95"
+                        <!-- User Pill Button -> Profile Link (Reactive Alpine & Event-Aware) -->
+                        <div
+                            x-data="{
+                                avatarUrl: '{{ auth()->user()->avatar_url ?? '' }}',
+                                userName: '{{ addslashes(auth()->user()->name) }}',
+                                userInitials: '{{ auth()->user()->initials }}'
+                            }"
+                            x-on:profile-updated.window="
+                                if ($event.detail.avatar !== undefined) avatarUrl = $event.detail.avatar;
+                                if ($event.detail.name) {
+                                    userName = $event.detail.name;
+                                    userInitials = $event.detail.initials || $event.detail.name.substring(0, 2).toUpperCase();
+                                }
+                            "
+                            class="flex items-center"
                         >
-                            <span class="w-5 h-5 rounded-full bg-amber-400 text-teal-950 flex items-center justify-center font-bold text-[10px] shrink-0" aria-hidden="true">
-                                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                            </span>
-                            <span class="max-w-28 sm:max-w-36 truncate font-semibold">{{ auth()->user()->name }}</span>
-                        </a>
+                            <a
+                                href="{{ route('profile.edit') }}"
+                                title="Buka Profil Pengguna"
+                                class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0a5c5a] dark:bg-slate-700 hover:bg-[#0e706e] dark:hover:bg-slate-600 border border-teal-600/50 dark:border-slate-600 text-white text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white shrink-0 whitespace-nowrap cursor-pointer active:scale-95"
+                            >
+                                <template x-if="avatarUrl">
+                                    <img :src="avatarUrl" alt="Avatar" class="w-5 h-5 rounded-full object-cover shrink-0 border border-teal-300/40" />
+                                </template>
+                                <template x-if="!avatarUrl">
+                                    <span class="w-5 h-5 rounded-full bg-amber-400 text-teal-950 flex items-center justify-center font-bold text-[10px] shrink-0" aria-hidden="true" x-text="userInitials">
+                                        {{ auth()->user()->initials }}
+                                    </span>
+                                </template>
+                                <span class="max-w-28 sm:max-w-36 truncate font-semibold" x-text="userName">{{ auth()->user()->name }}</span>
+                            </a>
+                        </div>
 
                         <!-- Tombol Keluar dengan Crisp Exit Heroicon -->
                         <form id="logout-form" method="POST" action="{{ route('logout') }}" class="inline">

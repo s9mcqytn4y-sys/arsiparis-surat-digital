@@ -8,7 +8,6 @@ use App\Enums\StatusDisposisi;
 use App\Models\SuratMasuk;
 use App\Models\UnitKerja;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class SuratMasukSeeder extends Seeder

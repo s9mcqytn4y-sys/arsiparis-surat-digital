@@ -6,8 +6,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CetakBukuAgendaController;
 use App\Http\Controllers\CetakDisposisiController;
 use App\Http\Controllers\DocumentStreamController;
+use App\Http\Controllers\LaporanCetakController;
 use App\Http\Controllers\ProfileController;
+use App\Livewire\ArsipDigital\Index;
 use App\Livewire\Dashboard;
+use App\Livewire\Pengaturan\Dokumen;
 use App\Livewire\SuratKeluar;
 use App\Livewire\SuratMasuk;
 use Illuminate\Support\Facades\Auth;
@@ -46,15 +49,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/surat-keluar/buat', SuratKeluar\Create::class)->name('surat-keluar.create');
 
     // Arsip Digital
-    Route::get('/arsip-digital', \App\Livewire\ArsipDigital\Index::class)->name('arsip-digital.index');
+    Route::get('/arsip-digital', Index::class)->name('arsip-digital.index');
 
     // Laporan & Analitik Kearsipan
-    Route::get('/laporan', \App\Livewire\Laporan\Index::class)->name('laporan.index');
-    Route::get('/laporan/cetak', \App\Http\Controllers\LaporanCetakController::class)->name('laporan.cetak');
+    Route::get('/laporan', App\Livewire\Laporan\Index::class)->name('laporan.index');
+    Route::get('/laporan/cetak', LaporanCetakController::class)->name('laporan.cetak');
 
     // Pengaturan & Data Master System
-    Route::get('/pengaturan/dokumen', \App\Livewire\Pengaturan\Dokumen::class)->name('pengaturan.dokumen');
-    Route::get('/data-master', \App\Livewire\DataMaster\Index::class)->name('data-master.index')->middleware('role:super_admin');
+    Route::get('/pengaturan/dokumen', Dokumen::class)->name('pengaturan.dokumen');
+    Route::get('/data-master', App\Livewire\DataMaster\Index::class)->name('data-master.index')->middleware('role:super_admin');
 
     // Streaming Dokumen Terproteksi (Signed URL Anti-IDOR 15 Menit) & Unduh Aman
     Route::get('/documents/stream/{document}', [DocumentStreamController::class, 'stream'])

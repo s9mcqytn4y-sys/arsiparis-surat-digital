@@ -35,7 +35,15 @@
     </div>
 
     @if (session('status'))
-        <div class="rounded-2xl border border-emerald-200 dark:border-emerald-800/60 bg-emerald-50 dark:bg-emerald-950/40 p-4 text-xs font-semibold text-emerald-800 dark:text-emerald-300 flex items-center gap-3">
+        <div
+            x-data
+            x-init="$dispatch('profile-updated', {
+                avatar: '{{ $user->avatar_url ?? '' }}',
+                name: '{{ addslashes($user->name) }}',
+                initials: '{{ $user->initials }}'
+            })"
+            class="rounded-2xl border border-emerald-200 dark:border-emerald-800/60 bg-emerald-50 dark:bg-emerald-950/40 p-4 text-xs font-semibold text-emerald-800 dark:text-emerald-300 flex items-center gap-3"
+        >
             <svg class="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>

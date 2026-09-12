@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Livewire\DataMaster\Index as DataMasterIndex;
-use App\Models\MasterNomorSurat;
 use App\Models\Pegawai;
 use App\Models\UnitKerja;
 use App\Models\User;
+use Database\Seeders\RoleAndPermissionSeeder;
+use Database\Seeders\UnitKerjaSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -21,8 +22,8 @@ class DataMasterLivewireTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(\Database\Seeders\RoleAndPermissionSeeder::class);
-        $this->seed(\Database\Seeders\UnitKerjaSeeder::class);
+        $this->seed(RoleAndPermissionSeeder::class);
+        $this->seed(UnitKerjaSeeder::class);
     }
 
     public function test_super_admin_dapat_mengakses_halaman_data_master(): void
@@ -98,6 +99,16 @@ class DataMasterLivewireTest extends TestCase
         Livewire::actingAs($admin)
             ->test(DataMasterIndex::class)
             ->call('backupData')
+            ->assertFileDownloaded();
+
+        Livewire::actingAs($admin)
+            ->test(DataMasterIndex::class)
+            ->call('exportPegawaiCsv')
+            ->assertFileDownloaded();
+
+        Livewire::actingAs($admin)
+            ->test(DataMasterIndex::class)
+            ->call('exportNomorSuratCsv')
             ->assertFileDownloaded();
     }
 }
