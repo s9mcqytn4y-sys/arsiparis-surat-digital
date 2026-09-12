@@ -32,9 +32,10 @@ if (getenv('VERCEL') || getenv('AWS_LAMBDA_FUNCTION_NAME')) {
     putenv('VIEW_COMPILED_PATH=/tmp/storage/framework/views');
 
     // Ensure APP_KEY exists in serverless runtime
-    if (! getenv('APP_KEY')) {
-        putenv('APP_KEY=base64:cWcxeUhkOWx6a05lWnJXZ3V3Z0lUeWVwNm5sU0xScEE=');
-    }
+    $appKey = getenv('APP_KEY') ?: 'base64:cWcxeUhkOWx6a05lWnJXZ3V3Z0lUeWVwNm5sU0xScEE=';
+    putenv('APP_KEY='.$appKey);
+    $_ENV['APP_KEY'] = $appKey;
+    $_SERVER['APP_KEY'] = $appKey;
 
     // Prepare SQLite database in /tmp if external pgsql is not configured
     if (! getenv('DATABASE_URL') && (! getenv('DB_CONNECTION') || getenv('DB_CONNECTION') === 'sqlite')) {
@@ -51,7 +52,12 @@ if (getenv('VERCEL') || getenv('AWS_LAMBDA_FUNCTION_NAME')) {
             }
         }
         putenv('DB_CONNECTION=sqlite');
+        $_ENV['DB_CONNECTION'] = 'sqlite';
+        $_SERVER['DB_CONNECTION'] = 'sqlite';
+
         putenv('DB_DATABASE='.$targetSqlite);
+        $_ENV['DB_DATABASE'] = $targetSqlite;
+        $_SERVER['DB_DATABASE'] = $targetSqlite;
     }
 }
 

@@ -6,7 +6,8 @@
     "api/index.php": {
       "runtime": "vercel-php@0.9.0",
       "memory": 1024,
-      "maxDuration": 10
+      "maxDuration": 10,
+      "includeFiles": "database/**"
     }
   },
   "routes": [
@@ -33,12 +34,15 @@
   "env": {
     "APP_ENV": "production",
     "APP_DEBUG": "false",
+    "APP_KEY": "base64:cWcxeUhkOWx6a05lWnJXZ3V3Z0lUeWVwNm5sU0xScEE=",
     "APP_CONFIG_CACHE": "/tmp/bootstrap/cache/config.php",
     "APP_EVENTS_CACHE": "/tmp/bootstrap/cache/events.php",
     "APP_PACKAGES_CACHE": "/tmp/bootstrap/cache/packages.php",
     "APP_ROUTES_CACHE": "/tmp/bootstrap/cache/routes.php",
     "APP_SERVICES_CACHE": "/tmp/bootstrap/cache/services.php",
     "VIEW_COMPILED_PATH": "/tmp/storage/framework/views",
+    "DB_CONNECTION": "sqlite",
+    "DB_DATABASE": "/tmp/database.sqlite",
     "SESSION_DRIVER": "cookie",
     "CACHE_STORE": "array",
     "LOG_CHANNEL": "stderr"
