@@ -22,30 +22,37 @@ Route::get('/', function () {
 });
 
 Route::get('/debug-check', function () {
-    try {
-        $dbPath = config('database.connections.sqlite.database');
-        $exists = file_exists((string) $dbPath);
-        $size = $exists ? filesize((string) $dbPath) : 0;
-        $users = User::all(['name', 'email']);
+    $dbPath = (string) config('database.connections.sqlite.database');
+    $exists = file_exists($dbPath);
+    $size = $exists ? filesize($dbPath) : 0;
 
-        return response()->json([
-            'status' => 'ok',
-            'db_path' => $dbPath,
-            'db_exists' => $exists,
-            'db_size' => $size,
-            'app_key_set' => ! empty(config('app.key')),
-            'session_driver' => config('session.driver'),
-            'users' => $users,
-        ]);
+    $baseDir = base_path();
+    $databaseDir = database_path();
+    $demoSqlitePath = database_path('demo.sqlite');
+
+    $dbFiles = file_exists($databaseDir) ? scandir($databaseDir) : [];
+
+    $userCount = 0;
+    $dbError = null;
+    try {
+        $userCount = User::count();
     } catch (Throwable $e) {
-        return response()->json([
-            'status' => 'error',
-            'message' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-            'trace' => explode("\n", $e->getTraceAsString()),
-        ], 500);
+        $dbError = $e->getMessage();
     }
+
+    return response()->json([
+        'status' => 'diagnostic',
+        'db_path' => $dbPath,
+        'db_exists' => $exists,
+        'db_size' => $size,
+        'database_dir' => $databaseDir,
+        'database_dir_exists' => file_exists($databaseDir),
+        'database_files' => $dbFiles,
+        'demo_sqlite_exists' => file_exists($demoSqlitePath),
+        'demo_sqlite_size' => file_exists($demoSqlitePath) ? filesize($demoSqlitePath) : 0,
+        'user_count' => $userCount,
+        'db_error' => $dbError,
+    ]);
 });
 
 // Autentikasi Kedinasan

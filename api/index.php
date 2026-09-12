@@ -41,12 +41,22 @@ if (getenv('VERCEL') || getenv('AWS_LAMBDA_FUNCTION_NAME')) {
     if (! getenv('DATABASE_URL') && (! getenv('DB_CONNECTION') || getenv('DB_CONNECTION') === 'sqlite')) {
         $targetSqlite = '/tmp/database.sqlite';
         if (! file_exists($targetSqlite) || filesize($targetSqlite) === 0) {
-            $sourceSqlite = file_exists(__DIR__.'/../database/demo.sqlite')
-                ? __DIR__.'/../database/demo.sqlite'
-                : __DIR__.'/../database/database.sqlite';
+            $possibleSources = [
+                __DIR__.'/demo.sqlite',
+                __DIR__.'/../database/demo.sqlite',
+                __DIR__.'/../database/database.sqlite',
+            ];
 
-            if (file_exists($sourceSqlite)) {
-                @copy($sourceSqlite, $targetSqlite);
+            $foundSource = null;
+            foreach ($possibleSources as $source) {
+                if (file_exists($source) && filesize($source) > 0) {
+                    $foundSource = $source;
+                    break;
+                }
+            }
+
+            if ($foundSource !== null) {
+                @copy($foundSource, $targetSqlite);
             } else {
                 @touch($targetSqlite);
             }
