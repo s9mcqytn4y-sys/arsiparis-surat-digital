@@ -39,8 +39,11 @@ if (getenv('VERCEL') || getenv('AWS_LAMBDA_FUNCTION_NAME')) {
     // Prepare SQLite database in /tmp if external pgsql is not configured
     if (! getenv('DATABASE_URL') && (! getenv('DB_CONNECTION') || getenv('DB_CONNECTION') === 'sqlite')) {
         $targetSqlite = '/tmp/database.sqlite';
-        if (! file_exists($targetSqlite)) {
-            $sourceSqlite = __DIR__.'/../database/database.sqlite';
+        if (! file_exists($targetSqlite) || filesize($targetSqlite) === 0) {
+            $sourceSqlite = file_exists(__DIR__.'/../database/demo.sqlite')
+                ? __DIR__.'/../database/demo.sqlite'
+                : __DIR__.'/../database/database.sqlite';
+
             if (file_exists($sourceSqlite)) {
                 @copy($sourceSqlite, $targetSqlite);
             } else {

@@ -20,6 +20,7 @@ yarn-error.log
 
 # ─── Database (regenerated per clone) ─────────
 database/database.sqlite
+!database/demo.sqlite
 
 # ─── Security & Certificates ──────────────────
 *.pem
