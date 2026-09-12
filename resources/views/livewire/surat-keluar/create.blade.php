@@ -36,7 +36,7 @@
                             required
                             aria-required="true"
                             @error('masterNomorSuratId') aria-invalid="true" aria-describedby="master-nomor-error" @enderror
-                            class="mt-1 block w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600 @error('masterNomorSuratId') border-red-500 @enderror"
+                            class="mt-1 block w-full rounded-lg border @error('masterNomorSuratId') border-red-500 @else border-slate-300 @enderror px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
                         >
                             <option value="">-- Pilih Pola Klasifikasi --</option>
                             @foreach ($masterNomorList as $mn)
@@ -58,7 +58,7 @@
                             required
                             aria-required="true"
                             @error('penandatanganId') aria-invalid="true" aria-describedby="penandatangan-error" @enderror
-                            class="mt-1 block w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600 @error('penandatanganId') border-red-500 @enderror"
+                            class="mt-1 block w-full rounded-lg border @error('penandatanganId') border-red-500 @else border-slate-300 @enderror px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
                         >
                             <option value="">-- Pilih Pejabat Penandatangan --</option>
                             @foreach ($pejabatList as $pj)
@@ -91,7 +91,7 @@
                             aria-required="true"
                             @error('tujuanSurat') aria-invalid="true" aria-describedby="tujuan-surat-error" @enderror
                             placeholder="Contoh: Kepala Lembaga Layanan Pendidikan Tinggi (LLDIKTI) Wilayah IV"
-                            class="mt-1 block w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600 @error('tujuanSurat') border-red-500 @enderror"
+                            class="mt-1 block w-full rounded-lg border @error('tujuanSurat') border-red-500 @else border-slate-300 @enderror px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
                         />
                         @error('tujuanSurat')
                             <p id="tujuan-surat-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -109,7 +109,7 @@
                             required
                             aria-required="true"
                             @error('tanggalSurat') aria-invalid="true" aria-describedby="tanggal-surat-sk-error" @enderror
-                            class="mt-1 block w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600 @error('tanggalSurat') border-red-500 @enderror"
+                            class="mt-1 block w-full rounded-lg border @error('tanggalSurat') border-red-500 @else border-slate-300 @enderror px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
                         />
                         @error('tanggalSurat')
                             <p id="tanggal-surat-sk-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -129,7 +129,7 @@
                         aria-required="true"
                         @error('perihal') aria-invalid="true" aria-describedby="perihal-sk-error" @enderror
                         placeholder="Contoh: Permohonan Rekomendasi Pembukaan Program Studi Magister Ilmu Komputer"
-                        class="mt-1 block w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600 @error('perihal') border-red-500 @enderror"
+                        class="mt-1 block w-full rounded-lg border @error('perihal') border-red-500 @else border-slate-300 @enderror px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
                     />
                     @error('perihal')
                         <p id="perihal-sk-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>

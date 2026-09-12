@@ -110,7 +110,7 @@
                                     {{ $surat->status_disposisi->label() }}
                                 </span>
                                 @if ($surat->disposisiPegawai)
-                                    <div class="mt-1 text-xs text-slate-500 font-medium truncate max-w-[140px]" title="{{ $surat->disposisiPegawai->nama_lengkap }}">
+                                    <div class="mt-1 text-xs text-slate-500 font-medium truncate max-w-35" title="{{ $surat->disposisiPegawai->nama_lengkap }}">
                                         -> {{ $surat->disposisiPegawai->nama_lengkap }}
                                     </div>
                                 @endif

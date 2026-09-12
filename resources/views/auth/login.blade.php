@@ -83,7 +83,7 @@
                     type="button" 
                     @click="showPassword = !showPassword" 
                     :aria-label="showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'"
-                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-xs font-medium text-slate-500 hover:text-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-800 rounded min-w-[44px] justify-center"
+                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-xs font-medium text-slate-500 hover:text-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-800 rounded min-w-11 justify-center"
                 >
                     <span x-text="showPassword ? 'Tutup' : 'Lihat'">Lihat</span>
                 </button>
@@ -112,7 +112,7 @@
         <div>
             <button 
                 type="submit" 
-                class="w-full min-h-[44px] flex justify-center items-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900 transition-colors duration-150"
+                class="w-full min-h-11 flex justify-center items-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-teal-700 hover:bg-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700 transition-colors duration-150"
             >
                 {{ __('persuratan.auth.submit_login') }}
             </button>
@@ -121,7 +121,7 @@
 
     <!-- Pemberitahuan Protokol Keamanan Zero Trust -->
     <div class="mt-6 pt-4 border-t border-slate-100 flex items-start gap-2 text-slate-500 text-[11px] leading-tight">
-        <svg class="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
         </svg>
         <span>{{ __('persuratan.auth.protected_notice') }}</span>

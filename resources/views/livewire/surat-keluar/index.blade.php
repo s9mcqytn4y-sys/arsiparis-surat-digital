@@ -72,7 +72,7 @@
                                 <div class="font-mono text-sm font-semibold text-slate-900">{{ $surat->nomor_surat }}</div>
                             </td>
                             <td class="px-6 py-4 max-w-xs">
-                                <div class="font-semibold text-slate-900 text-xs text-blue-900">Kepada: {{ $surat->tujuan_surat }}</div>
+                                <div class="font-semibold text-slate-900 text-xs">Kepada: {{ $surat->tujuan_surat }}</div>
                                 <p class="line-clamp-2 text-slate-700 mt-0.5">{{ $surat->perihal }}</p>
                             </td>
                             <td class="whitespace-nowrap px-6 py-4 text-xs">
