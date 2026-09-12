@@ -121,7 +121,7 @@ Menyimpan data dosen, pimpinan dan staf tenaga kependidikan (Tendik).
 | `nama` | `VARCHAR(150)`| NOT NULL, Nama lengkap dengan gelar akademik |
 | `jabatan` | `VARCHAR(100)`| NOT NULL (Rektor, Dekan, Wadek I, Kaprodi, KTU) |
 | `golongan` | `VARCHAR(50)` | NULLABLE (Penata Tk. I / IV-a, dst) |
-| `no_telepon` | `VARCHAR(25)` | NULLABLE, Nomor WhatsApp resmi |
+| `no_telepon` | `VARCHAR(25)` | NULLABLE, Nomor telepon dinas / kontak resmi pegawai |
 | `is_active` | `BOOLEAN` | NOT NULL, DEFAULT `true` |
 | `created_at` | `TIMESTAMP` | NOT NULL |
 | `updated_at` | `TIMESTAMP` | NOT NULL |
