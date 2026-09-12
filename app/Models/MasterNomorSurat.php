@@ -4,33 +4,26 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class MasterNomorSurat extends Model
 {
-    /** @use HasFactory<UserFactory> */
-    use HasFactory, HasRoles, HasUuids, Notifiable;
+    use HasFactory, HasUuids;
+
+    protected $table = 'master_nomor_surat';
 
     /** @var list<string> */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
         'unit_kerja_id',
-        'role',
+        'kode_klasifikasi',
+        'nama_klasifikasi',
+        'format_pola',
+        'nomor_terakhir',
+        'tahun',
         'is_active',
-    ];
-
-    /** @var list<string> */
-    protected $hidden = [
-        'password',
-        'remember_token',
     ];
 
     /**
@@ -39,8 +32,8 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'nomor_terakhir' => 'integer',
+            'tahun' => 'integer',
             'is_active' => 'boolean',
         ];
     }
