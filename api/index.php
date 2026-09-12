@@ -26,6 +26,11 @@ if (getenv('VERCEL') || getenv('AWS_LAMBDA_FUNCTION_NAME')) {
     putenv('APP_SERVICES_CACHE=/tmp/bootstrap/cache/services.php');
     putenv('VIEW_COMPILED_PATH=/tmp/storage/framework/views');
 
+    // Ensure APP_KEY exists in serverless runtime
+    if (! getenv('APP_KEY')) {
+        putenv('APP_KEY=base64:cWcxeUhkOWx6a05lWnJXZ3V3Z0lUeWVwNm5sU0xScEE=');
+    }
+
     // Prepare SQLite database in /tmp if external pgsql is not configured
     if (! getenv('DATABASE_URL') && (! getenv('DB_CONNECTION') || getenv('DB_CONNECTION') === 'sqlite')) {
         $targetSqlite = '/tmp/database.sqlite';
