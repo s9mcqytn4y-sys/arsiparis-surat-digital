@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if ($this->app->environment('production') || ! empty($_SERVER['HTTP_X_FORWARDED_PROTO']) || ! empty($_SERVER['VERCEL'])) {
+            URL::forceScheme('https');
+        }
+
         // Grant full authority to super_admin across all gates and policies
         Gate::before(function ($user, $ability) {
             if ($user->hasRole('super_admin')) {

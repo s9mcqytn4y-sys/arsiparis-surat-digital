@@ -1,5 +1,11 @@
+import { injectSpeedInsights } from '@vercel/speed-insights';
+import { inject } from '@vercel/analytics';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+
+// Initialize Vercel Observability
+injectSpeedInsights();
+inject();
 import {
     Chart,
     CategoryScale,

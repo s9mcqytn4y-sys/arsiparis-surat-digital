@@ -19,6 +19,11 @@ foreach ($directories as $dir) {
 
 // Redirect storage and bootstrap cache paths to /tmp in Vercel Serverless environment
 if (getenv('VERCEL') || getenv('AWS_LAMBDA_FUNCTION_NAME')) {
+    if (! isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on') {
+        $_SERVER['HTTPS'] = 'on';
+        $_SERVER['SERVER_PORT'] = '443';
+    }
+
     putenv('APP_CONFIG_CACHE=/tmp/bootstrap/cache/config.php');
     putenv('APP_EVENTS_CACHE=/tmp/bootstrap/cache/events.php');
     putenv('APP_PACKAGES_CACHE=/tmp/bootstrap/cache/packages.php');
