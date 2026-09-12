@@ -16,14 +16,14 @@ jobs:
       - name: Check Vercel Token Availability
         id: check-token
         run: |
-          if [ -z "${VERCEL_TOKEN:-}" ]; then
+          if [ -z "${VERCEL_TOKEN:-}" ] || [ "${VERCEL_TOKEN:-}" = "placeholder_token" ]; then
             echo "has_token=false" >> "$GITHUB_OUTPUT"
-            echo "Notice: VERCEL_TOKEN is not configured in repository secrets. Deployment will be managed directly via Vercel GitHub Git Integration."
+            echo "Notice: Deployment is managed directly by Vercel Git Integration (Hobby Plan Public Repo)."
           else
             echo "has_token=true" >> "$GITHUB_OUTPUT"
           fi
         env:
-          VERCEL_TOKEN: ${{ secrets['VERCEL_TOKEN'] }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
       - name: Setup Node.js 22 LTS
         if: steps.check-token.outputs.has_token == 'true'
@@ -44,7 +44,7 @@ jobs:
         if: steps.check-token.outputs.has_token == 'true'
         uses: amondnet/vercel-action@v25
         with:
-          vercel-token: ${{ secrets['VERCEL_TOKEN'] }}
-          vercel-org-id: ${{ secrets['VERCEL_ORG_ID'] }}
-          vercel-project-id: ${{ secrets['VERCEL_PROJECT_ID'] || 'hxXMoBd1YiygqaufBHkXHAbb' }}
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--prod'
