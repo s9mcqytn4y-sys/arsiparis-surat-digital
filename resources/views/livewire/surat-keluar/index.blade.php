@@ -370,4 +370,32 @@
         :title="$previewJudul ?? 'Pratinjau Dokumen Naskah Keluar'"
         onClose="tutupPreview"
     />
+
+    <!-- SweetAlert2 Konfirmasi Hapus Surat Keluar -->
+    <script>
+        function confirmDeleteSuratKeluar(id, nomor) {
+            const dark = document.documentElement.classList.contains('dark');
+            Swal.fire({
+                title: 'Konfirmasi Hapus?',
+                text: 'Apakah Anda yakin ingin menghapus naskah surat keluar No. "' + nomor + '"? Tindakan ini tidak dapat dibatalkan.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#0d7a78',
+                cancelButtonColor: '#1e293b',
+                confirmButtonText: 'Ya, Hapus',
+                cancelButtonText: 'Batal',
+                background: dark ? '#1e293b' : '#ffffff',
+                color: dark ? '#f8fafc' : '#0f172a',
+                customClass: {
+                    popup: 'rounded-2xl border shadow-2xl text-xs font-sans ' + (dark ? 'border-slate-700' : 'border-slate-200'),
+                    confirmButton: 'px-4 py-2 text-xs font-bold rounded-xl text-white shadow-xs',
+                    cancelButton: 'px-4 py-2 text-xs font-bold rounded-xl text-white shadow-xs'
+                }
+            }).then((res) => {
+                if (res.isConfirmed) {
+                    Livewire.dispatch('hapus-surat-keluar', { id: id });
+                }
+            });
+        }
+    </script>
 </div>
