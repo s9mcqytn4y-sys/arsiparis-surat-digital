@@ -12,47 +12,12 @@ use App\Livewire\Dashboard;
 use App\Livewire\Pengaturan\Dokumen;
 use App\Livewire\SuratKeluar;
 use App\Livewire\SuratMasuk;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Beranda pengalihan
 Route::get('/', function () {
     return Auth::check() ? redirect()->route('dashboard') : redirect()->route('login');
-});
-
-Route::get('/debug-check', function () {
-    $dbPath = (string) config('database.connections.sqlite.database');
-    $exists = file_exists($dbPath);
-    $size = $exists ? filesize($dbPath) : 0;
-
-    $baseDir = base_path();
-    $databaseDir = database_path();
-    $demoSqlitePath = database_path('demo.sqlite');
-
-    $dbFiles = file_exists($databaseDir) ? scandir($databaseDir) : [];
-
-    $userCount = 0;
-    $dbError = null;
-    try {
-        $userCount = User::count();
-    } catch (Throwable $e) {
-        $dbError = $e->getMessage();
-    }
-
-    return response()->json([
-        'status' => 'diagnostic',
-        'db_path' => $dbPath,
-        'db_exists' => $exists,
-        'db_size' => $size,
-        'database_dir' => $databaseDir,
-        'database_dir_exists' => file_exists($databaseDir),
-        'database_files' => $dbFiles,
-        'demo_sqlite_exists' => file_exists($demoSqlitePath),
-        'demo_sqlite_size' => file_exists($demoSqlitePath) ? filesize($demoSqlitePath) : 0,
-        'user_count' => $userCount,
-        'db_error' => $dbError,
-    ]);
 });
 
 // Autentikasi Kedinasan
