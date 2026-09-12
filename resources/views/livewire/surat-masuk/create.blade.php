@@ -38,7 +38,11 @@
                             aria-required="true"
                             @error('nomorSurat') aria-invalid="true" aria-describedby="nomor-surat-error" @enderror
                             placeholder="Contoh: 120/B/DIKTI/VIII/2026"
-                            class="mt-1 block w-full rounded-lg border @error('nomorSurat') border-red-500 @else border-slate-300 @enderror px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                            @class([
+                                'mt-1 block w-full rounded-lg border px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-1',
+                                'border-red-500 focus:border-red-600 focus:ring-red-600' => $errors->has('nomorSurat'),
+                                'border-slate-300 focus:border-emerald-600 focus:ring-emerald-600' => !$errors->has('nomorSurat'),
+                            ])
                         />
                         @error('nomorSurat')
                             <p id="nomor-surat-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -49,16 +53,44 @@
                         <label for="pengirim" class="block text-sm font-semibold text-slate-700">
                             Instansi / Pejabat Pengirim <span class="text-red-500" aria-hidden="true">*</span>
                         </label>
-                        <input
+                        <select
                             id="pengirim"
-                            type="text"
-                            wire:model="pengirim"
+                            wire:model.live="pengirim"
                             required
                             aria-required="true"
                             @error('pengirim') aria-invalid="true" aria-describedby="pengirim-error" @enderror
-                            placeholder="Contoh: Ditjen Pendidikan Tinggi Kemendikbudristek"
-                            class="mt-1 block w-full rounded-lg border @error('pengirim') border-red-500 @else border-slate-300 @enderror px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
-                        />
+                            @class([
+                                'mt-1 block w-full rounded-lg border px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-1 bg-white',
+                                'border-red-500 focus:border-red-600 focus:ring-red-600' => $errors->has('pengirim'),
+                                'border-slate-300 focus:border-emerald-600 focus:ring-emerald-600' => !$errors->has('pengirim'),
+                            ])
+                        >
+                            <option value="">-- Pilih Asal Pengirim Surat --</option>
+                            @foreach ($daftarPengirim as $p)
+                                <option value="{{ $p }}">{{ $p }}</option>
+                            @endforeach
+                            <option value="__custom__">+ Input Manual / Tambah Baru</option>
+                        </select>
+
+                        @if ($pengirim === '__custom__' || $isCustomPengirim)
+                            <div class="mt-2">
+                                <input
+                                    type="text"
+                                    wire:model="pengirim_manual"
+                                    placeholder="Masukkan nama pengirim secara manual..."
+                                    @class([
+                                        'block w-full rounded-lg border px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-1',
+                                        'border-red-500 focus:border-red-600 focus:ring-red-600 bg-red-50/20' => $errors->has('pengirim_manual'),
+                                        'border-slate-300 focus:border-emerald-600 focus:ring-emerald-600' => !$errors->has('pengirim_manual'),
+                                    ])
+                                />
+                                <p class="text-[11px] text-slate-500 mt-1">Masukkan nama instansi / pengirim secara manual</p>
+                                @error('pengirim_manual')
+                                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        @endif
+
                         @error('pengirim')
                             <p id="pengirim-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>
                         @enderror
@@ -77,7 +109,11 @@
                             required
                             aria-required="true"
                             @error('tanggalSurat') aria-invalid="true" aria-describedby="tanggal-surat-error" @enderror
-                            class="mt-1 block w-full rounded-lg border @error('tanggalSurat') border-red-500 @else border-slate-300 @enderror px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                            @class([
+                                'mt-1 block w-full rounded-lg border px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-1',
+                                'border-red-500 focus:border-red-600 focus:ring-red-600' => $errors->has('tanggalSurat'),
+                                'border-slate-300 focus:border-emerald-600 focus:ring-emerald-600' => !$errors->has('tanggalSurat'),
+                            ])
                         />
                         @error('tanggalSurat')
                             <p id="tanggal-surat-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -95,7 +131,11 @@
                             required
                             aria-required="true"
                             @error('tanggalTerima') aria-invalid="true" aria-describedby="tanggal-terima-error" @enderror
-                            class="mt-1 block w-full rounded-lg border @error('tanggalTerima') border-red-500 @else border-slate-300 @enderror px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                            @class([
+                                'mt-1 block w-full rounded-lg border px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-1',
+                                'border-red-500 focus:border-red-600 focus:ring-red-600' => $errors->has('tanggalTerima'),
+                                'border-slate-300 focus:border-emerald-600 focus:ring-emerald-600' => !$errors->has('tanggalTerima'),
+                            ])
                         />
                         @error('tanggalTerima')
                             <p id="tanggal-terima-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -115,24 +155,15 @@
                         aria-required="true"
                         @error('perihal') aria-invalid="true" aria-describedby="perihal-error" @enderror
                         placeholder="Contoh: Undangan Koordinasi Akreditasi Program Studi Internasional"
-                        class="mt-1 block w-full rounded-lg border @error('perihal') border-red-500 @else border-slate-300 @enderror px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                        @class([
+                            'mt-1 block w-full rounded-lg border px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-1',
+                            'border-red-500 focus:border-red-600 focus:ring-red-600' => $errors->has('perihal'),
+                            'border-slate-300 focus:border-emerald-600 focus:ring-emerald-600' => !$errors->has('perihal'),
+                        ])
                     />
                     @error('perihal')
                         <p id="perihal-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>
                     @enderror
-                </div>
-
-                <div>
-                    <label for="ringkasan" class="block text-sm font-semibold text-slate-700">
-                        Ringkasan / Catatan Tambahan (Opsional)
-                    </label>
-                    <textarea
-                        id="ringkasan"
-                        rows="3"
-                        wire:model="ringkasan"
-                        placeholder="Catatan ringkas instruksi atau rincian lampiran..."
-                        class="mt-1 block w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
-                    ></textarea>
                 </div>
             </fieldset>
 

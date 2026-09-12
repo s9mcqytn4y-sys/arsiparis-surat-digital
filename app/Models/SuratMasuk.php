@@ -26,7 +26,6 @@ class SuratMasuk extends Model
         'tanggal_surat',
         'tanggal_terima',
         'perihal',
-        'ringkasan',
         'disposisi_kepada',
         'instruksi_disposisi',
         'status_disposisi',

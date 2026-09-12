@@ -37,10 +37,19 @@ class ArsipDigital extends Model
     protected function casts(): array
     {
         return [
-            'kategori' => KategoriArsip::class,
+            'kategori' => 'string',
             'tanggal_dokumen' => 'date',
             'file_size' => 'integer',
         ];
+    }
+
+    public function setKategoriAttribute(mixed $value): void
+    {
+        if ($value instanceof \BackedEnum) {
+            $this->attributes['kategori'] = (string) $value->value;
+        } else {
+            $this->attributes['kategori'] = (string) $value;
+        }
     }
 
     /**

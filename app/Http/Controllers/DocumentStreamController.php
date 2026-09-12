@@ -49,4 +49,35 @@ final class DocumentStreamController extends Controller
             ]
         );
     }
+
+    /**
+     * Mengunduh berkas naskah dinas fisik secara aman.
+     */
+    public function download(Request $request, string $document): StreamedResponse
+    {
+        $model = SuratMasuk::find($document)
+            ?? SuratKeluar::find($document)
+            ?? ArsipDigital::findOrFail($document);
+
+        Gate::authorize('view', $model);
+
+        $filePath = $model->file_path;
+        if (empty($filePath) || ! Storage::disk('local')->exists($filePath)) {
+            abort(404, 'Berkas naskah dinas tidak ditemukan dalam repositori privat.');
+        }
+
+        $fileName = basename($filePath);
+        $fileSize = Storage::disk('local')->size($filePath);
+
+        return Storage::disk('local')->response(
+            $filePath,
+            $fileName,
+            [
+                'Content-Type' => 'application/pdf',
+                'Content-Length' => (string) $fileSize,
+                'Content-Disposition' => 'attachment; filename="'.$fileName.'"',
+                'X-Content-Type-Options' => 'nosniff',
+            ]
+        );
+    }
 }

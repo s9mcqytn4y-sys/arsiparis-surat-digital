@@ -4,10 +4,10 @@
 
 @section('content')
 <div class="space-y-6">
-    <!-- Quick Stats Grid (Prototype Style: 4 Rounded Cards with Soft Icon Accents) -->
+    <!-- Quick Stats Grid (Clean Flat Institutional Cards) -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <!-- Surat Masuk Card -->
-        <div class="bg-white rounded-2xl p-5 shadow-xs border border-slate-100 flex items-center justify-between transition hover:shadow-md">
+        <div class="bg-white rounded-2xl p-5 shadow-xs border border-slate-200/80 flex items-center justify-between transition hover:shadow-md">
             <div class="flex items-center gap-4">
                 <div class="w-14 h-14 rounded-2xl bg-sky-600 text-white flex items-center justify-center shadow-xs">
                     <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -23,11 +23,10 @@
                     </div>
                 </div>
             </div>
-            <div class="w-12 h-12 rounded-full bg-slate-50 opacity-60"></div>
         </div>
 
         <!-- Surat Keluar Card -->
-        <div class="bg-white rounded-2xl p-5 shadow-xs border border-slate-100 flex items-center justify-between transition hover:shadow-md">
+        <div class="bg-white rounded-2xl p-5 shadow-xs border border-slate-200/80 flex items-center justify-between transition hover:shadow-md">
             <div class="flex items-center gap-4">
                 <div class="w-14 h-14 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-xs">
                     <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -43,11 +42,10 @@
                     </div>
                 </div>
             </div>
-            <div class="w-12 h-12 rounded-full bg-slate-50 opacity-60"></div>
         </div>
 
         <!-- Arsip Digital Card -->
-        <div class="bg-white rounded-2xl p-5 shadow-xs border border-slate-100 flex items-center justify-between transition hover:shadow-md">
+        <div class="bg-white rounded-2xl p-5 shadow-xs border border-slate-200/80 flex items-center justify-between transition hover:shadow-md">
             <div class="flex items-center gap-4">
                 <div class="w-14 h-14 rounded-2xl bg-[#0d7a78] text-white flex items-center justify-center shadow-xs">
                     <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -63,11 +61,10 @@
                     </div>
                 </div>
             </div>
-            <div class="w-12 h-12 rounded-full bg-slate-50 opacity-60"></div>
         </div>
 
         <!-- Data Pegawai Card -->
-        <div class="bg-white rounded-2xl p-5 shadow-xs border border-slate-100 flex items-center justify-between transition hover:shadow-md">
+        <div class="bg-white rounded-2xl p-5 shadow-xs border border-slate-200/80 flex items-center justify-between transition hover:shadow-md">
             <div class="flex items-center gap-4">
                 <div class="w-14 h-14 rounded-2xl bg-cyan-700 text-white flex items-center justify-center shadow-xs">
                     <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -83,12 +80,11 @@
                     </div>
                 </div>
             </div>
-            <div class="w-12 h-12 rounded-full bg-slate-50 opacity-60"></div>
         </div>
     </div>
 
-    <!-- Section Aksi Cepat (Prototype Style: 3 Large Teal Action Banners) -->
-    <section class="bg-white rounded-2xl p-6 shadow-xs border border-slate-100" aria-labelledby="heading-aksi-cepat">
+    <!-- Section Aksi Cepat (Clean Solid Banners matching Prototype) -->
+    <section class="bg-white rounded-2xl p-6 shadow-xs border border-slate-200/80" aria-labelledby="heading-aksi-cepat">
         <h2 id="heading-aksi-cepat" class="text-base font-bold text-slate-900 mb-4">
             Aksi Cepat
         </h2>
@@ -97,9 +93,9 @@
             <!-- Tombol Input Surat Masuk -->
             <a 
                 href="{{ route('surat-masuk.index') }}" 
-                class="flex flex-col items-center justify-center p-5 rounded-xl bg-gradient-to-r from-teal-700 to-emerald-700 text-white hover:from-teal-800 hover:to-emerald-800 transition shadow-sm group"
+                class="flex flex-col items-center justify-center p-6 rounded-xl bg-[#0d7a78] text-white hover:bg-[#0a5c5a] transition shadow-xs group"
             >
-                <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center mb-2.5 group-hover:scale-110 transition-transform">
+                <div class="w-11 h-11 rounded-lg bg-teal-800/50 flex items-center justify-center mb-2.5 group-hover:scale-105 transition-transform">
                     <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                     </svg>
@@ -110,9 +106,9 @@
             <!-- Tombol Input Surat Keluar -->
             <a 
                 href="{{ route('surat-keluar.index') }}" 
-                class="flex flex-col items-center justify-center p-5 rounded-xl bg-gradient-to-r from-teal-700 to-cyan-700 text-white hover:from-teal-800 hover:to-cyan-800 transition shadow-sm group"
+                class="flex flex-col items-center justify-center p-6 rounded-xl bg-[#0c6e6c] text-white hover:bg-[#095452] transition shadow-xs group"
             >
-                <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center mb-2.5 group-hover:scale-110 transition-transform">
+                <div class="w-11 h-11 rounded-lg bg-teal-800/50 flex items-center justify-center mb-2.5 group-hover:scale-105 transition-transform">
                     <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                     </svg>
@@ -122,10 +118,10 @@
 
             <!-- Tombol Upload Arsip -->
             <a 
-                href="{{ route('dashboard') }}" 
-                class="flex flex-col items-center justify-center p-5 rounded-xl bg-gradient-to-r from-cyan-800 to-teal-800 text-white hover:from-cyan-900 hover:to-teal-900 transition shadow-sm group"
+                href="{{ route('arsip-digital.index') }}" 
+                class="flex flex-col items-center justify-center p-6 rounded-xl bg-[#0b6361] text-white hover:bg-[#084c4a] transition shadow-xs group"
             >
-                <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center mb-2.5 group-hover:scale-110 transition-transform">
+                <div class="w-11 h-11 rounded-lg bg-teal-800/50 flex items-center justify-center mb-2.5 group-hover:scale-105 transition-transform">
                     <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                     </svg>
@@ -135,8 +131,8 @@
         </div>
     </section>
 
-    <!-- Section Aktivitas Terbaru (Prototype Style: Clean Table) -->
-    <section class="bg-white rounded-2xl p-6 shadow-xs border border-slate-100" aria-labelledby="heading-aktivitas-terbaru">
+    <!-- Section Aktivitas Terbaru (Clean Table with Prototype Header) -->
+    <section class="bg-white rounded-2xl p-6 shadow-xs border border-slate-200/80" aria-labelledby="heading-aktivitas-terbaru">
         <div class="flex items-center justify-between mb-4">
             <h2 id="heading-aktivitas-terbaru" class="text-base font-bold text-slate-900">
                 Aktivitas Terbaru

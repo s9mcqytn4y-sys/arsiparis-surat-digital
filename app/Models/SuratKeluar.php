@@ -24,8 +24,7 @@ class SuratKeluar extends Model
         'tujuan',
         'tanggal_surat',
         'perihal',
-        'ringkasan',
-        'penandatangan_id',
+        'jenis_surat',
         'file_path',
         'file_mime',
         'file_size',
@@ -49,14 +48,6 @@ class SuratKeluar extends Model
     public function unitKerja(): BelongsTo
     {
         return $this->belongsTo(UnitKerja::class, 'unit_kerja_id');
-    }
-
-    /**
-     * @return BelongsTo<Pegawai, $this>
-     */
-    public function penandatangan(): BelongsTo
-    {
-        return $this->belongsTo(Pegawai::class, 'penandatangan_id');
     }
 
     /**

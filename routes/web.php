@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CetakBukuAgendaController;
 use App\Http\Controllers\CetakDisposisiController;
 use App\Http\Controllers\DocumentStreamController;
+use App\Http\Controllers\ProfileController;
+use App\Livewire\Dashboard;
 use App\Livewire\SuratKeluar;
 use App\Livewire\SuratMasuk;
 use Illuminate\Support\Facades\Auth;
@@ -26,9 +28,12 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->midd
 
 // Portal Tata Usaha & Kearsipan (Wajib Terautentikasi)
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', Dashboard\Index::class)->name('dashboard');
+
+    // Profil Pengguna Kedinasan
+    Route::get('/profil', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profil', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profil/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 
     // Naskah Masuk
     Route::get('/surat-masuk', SuratMasuk\Index::class)->name('surat-masuk.index');
@@ -40,8 +45,23 @@ Route::middleware('auth')->group(function () {
     Route::get('/surat-keluar', SuratKeluar\Index::class)->name('surat-keluar.index');
     Route::get('/surat-keluar/buat', SuratKeluar\Create::class)->name('surat-keluar.create');
 
-    // Streaming Dokumen Terproteksi (Signed URL Anti-IDOR 15 Menit)
+    // Arsip Digital
+    Route::get('/arsip-digital', \App\Livewire\ArsipDigital\Index::class)->name('arsip-digital.index');
+
+    // Laporan & Analitik Kearsipan
+    Route::get('/laporan', \App\Livewire\Laporan\Index::class)->name('laporan.index');
+    Route::get('/laporan/cetak', \App\Http\Controllers\LaporanCetakController::class)->name('laporan.cetak');
+
+    // Pengaturan & Data Master System
+    Route::get('/pengaturan/dokumen', \App\Livewire\Pengaturan\Dokumen::class)->name('pengaturan.dokumen');
+    Route::get('/data-master', \App\Livewire\DataMaster\Index::class)->name('data-master.index')->middleware('role:super_admin');
+
+    // Streaming Dokumen Terproteksi (Signed URL Anti-IDOR 15 Menit) & Unduh Aman
     Route::get('/documents/stream/{document}', [DocumentStreamController::class, 'stream'])
         ->name('documents.stream')
+        ->middleware('signed');
+
+    Route::get('/documents/download/{document}', [DocumentStreamController::class, 'download'])
+        ->name('documents.download')
         ->middleware('signed');
 });

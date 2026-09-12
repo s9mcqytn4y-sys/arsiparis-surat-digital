@@ -36,7 +36,11 @@
                             required
                             aria-required="true"
                             @error('masterNomorSuratId') aria-invalid="true" aria-describedby="master-nomor-error" @enderror
-                            class="mt-1 block w-full rounded-lg border @error('masterNomorSuratId') border-red-500 @else border-slate-300 @enderror px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                            @class([
+                                'mt-1 block w-full rounded-lg border px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600',
+                                'border-red-500 ring-1 ring-red-500' => $errors->has('masterNomorSuratId'),
+                                'border-slate-300' => ! $errors->has('masterNomorSuratId'),
+                            ])
                         >
                             <option value="">-- Pilih Pola Klasifikasi --</option>
                             @foreach ($masterNomorList as $mn)
@@ -49,24 +53,49 @@
                     </div>
 
                     <div>
-                        <label for="penandatangan" class="block text-sm font-semibold text-slate-700">
-                            Pejabat Penandatangan Naskah <span class="text-red-500" aria-hidden="true">*</span>
+                        <label for="jenis-surat" class="block text-sm font-semibold text-slate-700">
+                            Jenis Surat <span class="text-red-500" aria-hidden="true">*</span>
                         </label>
                         <select
-                            id="penandatangan"
-                            wire:model="penandatanganId"
+                            id="jenis-surat"
+                            wire:model.live="jenisSurat"
                             required
                             aria-required="true"
-                            @error('penandatanganId') aria-invalid="true" aria-describedby="penandatangan-error" @enderror
-                            class="mt-1 block w-full rounded-lg border @error('penandatanganId') border-red-500 @else border-slate-300 @enderror px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                            @error('jenisSurat') aria-invalid="true" aria-describedby="jenis-surat-error" @enderror
+                            @class([
+                                'mt-1 block w-full rounded-lg border px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600 bg-white',
+                                'border-red-500 ring-1 ring-red-500' => $errors->has('jenisSurat'),
+                                'border-slate-300' => ! $errors->has('jenisSurat'),
+                            ])
                         >
-                            <option value="">-- Pilih Pejabat Penandatangan --</option>
-                            @foreach ($pejabatList as $pj)
-                                <option value="{{ $pj->id }}">{{ $pj->nama }} ({{ $pj->jabatan }})</option>
+                            <option value="">-- Pilih Jenis Surat Dinas --</option>
+                            @foreach ($daftarJenisSurat as $jns)
+                                <option value="{{ $jns }}">{{ $jns }}</option>
                             @endforeach
+                            <option value="__custom__">+ Input Manual / Tambah Baru</option>
                         </select>
-                        @error('penandatanganId')
-                            <p id="penandatangan-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>
+
+                        @if ($jenisSurat === '__custom__' || $isCustomJenisSurat)
+                            <div class="mt-2">
+                                <input
+                                    type="text"
+                                    wire:model="jenisSuratManual"
+                                    placeholder="Masukkan jenis surat secara manual..."
+                                    @class([
+                                        'block w-full rounded-lg border px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600',
+                                        'border-red-500 ring-1 ring-red-500 bg-red-50/20' => $errors->has('jenisSuratManual'),
+                                        'border-slate-300' => ! $errors->has('jenisSuratManual'),
+                                    ])
+                                />
+                                <p class="mt-1 text-xs text-slate-500">Masukkan jenis surat secara manual</p>
+                                @error('jenisSuratManual')
+                                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        @endif
+
+                        @error('jenisSurat')
+                            <p id="jenis-surat-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -83,16 +112,44 @@
                         <label for="tujuan-surat" class="block text-sm font-semibold text-slate-700">
                             Tujuan Surat / Instansi Penerima <span class="text-red-500" aria-hidden="true">*</span>
                         </label>
-                        <input
+                        <select
                             id="tujuan-surat"
-                            type="text"
-                            wire:model="tujuanSurat"
+                            wire:model.live="tujuanSurat"
                             required
                             aria-required="true"
                             @error('tujuanSurat') aria-invalid="true" aria-describedby="tujuan-surat-error" @enderror
-                            placeholder="Contoh: Kepala Lembaga Layanan Pendidikan Tinggi (LLDIKTI) Wilayah IV"
-                            class="mt-1 block w-full rounded-lg border @error('tujuanSurat') border-red-500 @else border-slate-300 @enderror px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
-                        />
+                            @class([
+                                'mt-1 block w-full rounded-lg border px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600 bg-white',
+                                'border-red-500 ring-1 ring-red-500' => $errors->has('tujuanSurat'),
+                                'border-slate-300' => ! $errors->has('tujuanSurat'),
+                            ])
+                        >
+                            <option value="">-- Pilih Instansi / Pihak Tujuan Surat --</option>
+                            @foreach ($daftarTujuanSurat as $tj)
+                                <option value="{{ $tj }}">{{ $tj }}</option>
+                            @endforeach
+                            <option value="__custom__">+ Input Manual / Tambah Baru</option>
+                        </select>
+
+                        @if ($tujuanSurat === '__custom__' || $isCustomTujuanSurat)
+                            <div class="mt-2">
+                                <input
+                                    type="text"
+                                    wire:model="tujuanSuratManual"
+                                    placeholder="Masukkan pihak tujuan secara manual..."
+                                    @class([
+                                        'block w-full rounded-lg border px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600',
+                                        'border-red-500 ring-1 ring-red-500 bg-red-50/20' => $errors->has('tujuanSuratManual'),
+                                        'border-slate-300' => ! $errors->has('tujuanSuratManual'),
+                                    ])
+                                />
+                                <p class="mt-1 text-xs text-slate-500">Masukkan nama instansi / pihak tujuan secara manual</p>
+                                @error('tujuanSuratManual')
+                                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        @endif
+
                         @error('tujuanSurat')
                             <p id="tujuan-surat-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>
                         @enderror
@@ -109,7 +166,11 @@
                             required
                             aria-required="true"
                             @error('tanggalSurat') aria-invalid="true" aria-describedby="tanggal-surat-sk-error" @enderror
-                            class="mt-1 block w-full rounded-lg border @error('tanggalSurat') border-red-500 @else border-slate-300 @enderror px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                            @class([
+                                'mt-1 block w-full rounded-lg border px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600',
+                                'border-red-500 ring-1 ring-red-500' => $errors->has('tanggalSurat'),
+                                'border-slate-300' => ! $errors->has('tanggalSurat'),
+                            ])
                         />
                         @error('tanggalSurat')
                             <p id="tanggal-surat-sk-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -129,7 +190,11 @@
                         aria-required="true"
                         @error('perihal') aria-invalid="true" aria-describedby="perihal-sk-error" @enderror
                         placeholder="Contoh: Permohonan Rekomendasi Pembukaan Program Studi Magister Ilmu Komputer"
-                        class="mt-1 block w-full rounded-lg border @error('perihal') border-red-500 @else border-slate-300 @enderror px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                        @class([
+                            'mt-1 block w-full rounded-lg border px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600',
+                            'border-red-500 ring-1 ring-red-500' => $errors->has('perihal'),
+                            'border-slate-300' => ! $errors->has('perihal'),
+                        ])
                     />
                     @error('perihal')
                         <p id="perihal-sk-error" class="mt-1 text-xs text-red-600">{{ $message }}</p>

@@ -19,12 +19,10 @@ return new class extends Migration
             $table->string('golongan', 20)->nullable();
             $table->string('no_telepon', 30)->nullable();
             $table->string('email', 100)->nullable();
-            $table->boolean('is_penandatangan')->default(false);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
 
             $table->index('unit_kerja_id');
-            $table->index('is_penandatangan');
             $table->index('is_active');
         });
     }

@@ -8,38 +8,41 @@ return [
 
     // Autentikasi
     'auth' => [
-        'login_title' => 'Portal Naskah Dinas Terpusat',
-        'login_subtitle' => 'Silakan masuk menggunakan identitas resmi universitas',
-        'nip_or_email' => 'NIP / NIDN / Alamat Surel Resmi',
+        'login_title' => 'Portal Tata Usaha & Kearsipan',
+        'login_subtitle' => 'Autentikasi Surat Digital Terpusat',
+        'nip_or_email' => 'Username, Surel, atau NIP Resmi',
         'password' => 'Kata Sandi',
-        'remember_me' => 'Ingat sesi di peramban ini',
-        'submit_login' => 'Masuk ke Portal Naskah Dinas',
+        'remember_me' => 'Ingat sesi saya',
+        'submit_login' => 'Masuk',
         'logout' => 'Keluar dari Sistem',
-        'failed' => 'Identitas atau kata sandi yang dimasukkan tidak cocok dengan data universitas.',
-        'throttle' => 'Terlalu banyak percobaan login. Silakan coba kembali dalam :seconds detik.',
-        'protected_notice' => 'Sistem Kearsipan Terlindung Protokol Zero Trust. Setiap aktivitas terekam dalam log audit.',
+        'failed' => 'Identitas atau kata sandi yang dimasukkan tidak valid.',
+        'login_failed' => 'Identitas atau kata sandi yang dimasukkan tidak valid.',
+        'login_success' => 'Berhasil masuk ke portal persuratan digital.',
+        'logout_success' => 'Sesi kedinasan telah berhasil diakhiri.',
+        'throttle' => 'Terlalu banyak percobaan masuk. Silakan coba kembali dalam :seconds detik.',
+        'protected_notice' => 'Sistem Kearsipan Terlindung Protokol Zero Trust. Seluruh akses surat terekam dalam audit trail.',
     ],
 
     // Navigasi & Modul
     'nav' => [
-        'dashboard' => 'Beranda Tata Usaha',
-        'surat_masuk' => 'Naskah Dinas Masuk',
-        'surat_keluar' => 'Naskah Dinas Keluar',
+        'dashboard' => 'Dashboard Tata Usaha',
+        'surat_masuk' => 'Surat Masuk',
+        'surat_keluar' => 'Surat Keluar',
         'disposisi' => 'Pelacakan Disposisi',
-        'arsip_digital' => 'Repositori Berkas Arsip',
-        'master_data' => 'Master Klasifikasi & Pola',
+        'arsip_digital' => 'Arsip Digital',
+        'master_data' => 'Data Master',
         'profil' => 'Profil Pengguna',
     ],
 
-    // Naskah Dinas Masuk
+    // Surat Masuk
     'surat_masuk' => [
         'title' => 'Registrasi & Pengelolaan Surat Masuk',
         'nomor_agenda' => 'Nomor Agenda',
         'nomor_surat' => 'Nomor Surat Asal',
         'pengirim' => 'Instansi / Pihak Pengirim',
-        'tanggal_surat' => 'Tanggal Naskah',
+        'tanggal_surat' => 'Tanggal Surat',
         'tanggal_terima' => 'Tanggal Diterima TU',
-        'perihal' => 'Perihal Naskah',
+        'perihal' => 'Perihal Surat',
         'ringkasan' => 'Ringkasan Isi Surat',
         'berkas' => 'Berkas Pindaian (Format PDF Resmi)',
         'status_disposisi' => 'Status Disposisi',
@@ -48,13 +51,13 @@ return [
         'instruksi' => 'Instruksi / Catatan Pimpinan',
     ],
 
-    // Naskah Dinas Keluar
+    // Surat Keluar
     'surat_keluar' => [
         'title' => 'Penerbitan & Penomoran Surat Keluar',
         'nomor_surat' => 'Nomor Surat Resmi',
-        'kode_klasifikasi' => 'Kode Klasifikasi Naskah',
+        'kode_klasifikasi' => 'Kode Klasifikasi Surat',
         'tujuan' => 'Tujuan Surat / Penerima',
-        'penandatangan' => 'Pejabat Penandatangan',
+        'jenis_surat' => 'Jenis Surat Dinas',
         'tanggal_surat' => 'Tanggal Surat Keluar',
         'terbitkan_nomor' => 'Kunci & Terbitkan Nomor Resmi',
         'cetak_lembar' => 'Cetak Lembar Pengantar',
@@ -62,7 +65,7 @@ return [
 
     // Cetak & Keamanan
     'cetak' => [
-        'lembar_disposisi' => 'LEMBAR DISPOSISI NASKAH DINAS',
+        'lembar_disposisi' => 'LEMBAR DISPOSISI SURAT DINAS',
         'rahasia' => 'RAHASIA',
         'penting' => 'PENTING',
         'biasa' => 'BIASA',

@@ -14,14 +14,29 @@ final class LoginRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('email') && ! $this->filled('identity')) {
+            $this->merge([
+                'identity' => $this->input('email'),
+            ]);
+        }
+
+        if ($this->has('remember')) {
+            $this->merge([
+                'remember' => $this->boolean('remember'),
+            ]);
+        }
+    }
+
     /**
      * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['required', 'string', 'min:8'],
+            'identity' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'string'],
             'remember' => ['nullable', 'boolean'],
         ];
     }
@@ -32,10 +47,11 @@ final class LoginRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'email.required' => 'Alamat surel wajib diisi.',
-            'email.email' => 'Format alamat surel tidak valid.',
-            'password.required' => 'Kata sandi akun kedinasan wajib diisi.',
-            'password.min' => 'Kata sandi minimal berjumlah :min karakter.',
+            'identity.required' => 'Identitas (username, surel, atau NIP) wajib diisi.',
+            'identity.string' => 'Identitas harus berupa teks yang valid.',
+            'identity.max' => 'Identitas tidak boleh lebih dari 255 karakter.',
+            'password.required' => 'Kata sandi wajib diisi.',
+            'remember.boolean' => 'Pilihan pengingat sesi harus bernilai benar atau salah.',
         ];
     }
 }

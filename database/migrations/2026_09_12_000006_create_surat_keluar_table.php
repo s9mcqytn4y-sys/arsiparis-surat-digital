@@ -19,8 +19,7 @@ return new class extends Migration
             $table->string('tujuan');
             $table->date('tanggal_surat');
             $table->string('perihal');
-            $table->text('ringkasan')->nullable();
-            $table->foreignUuid('penandatangan_id')->constrained('pegawai')->restrictOnDelete();
+            $table->string('jenis_surat', 100);
             $table->string('file_path')->nullable();
             $table->string('file_mime', 50)->nullable();
             $table->unsignedBigInteger('file_size')->nullable();

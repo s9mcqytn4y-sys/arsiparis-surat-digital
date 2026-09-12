@@ -122,7 +122,6 @@ Menyimpan data dosen, pimpinan dan staf tenaga kependidikan (Tendik).
 | `jabatan` | `VARCHAR(100)`| NOT NULL (Rektor, Dekan, Wadek I, Kaprodi, KTU) |
 | `golongan` | `VARCHAR(50)` | NULLABLE (Penata Tk. I / IV-a, dst) |
 | `no_telepon` | `VARCHAR(25)` | NULLABLE, Nomor WhatsApp resmi |
-| `is_penandatangan`| `BOOLEAN` | NOT NULL, DEFAULT `false` |
 | `is_active` | `BOOLEAN` | NOT NULL, DEFAULT `true` |
 | `created_at` | `TIMESTAMP` | NOT NULL |
 | `updated_at` | `TIMESTAMP` | NOT NULL |
@@ -185,7 +184,7 @@ Menyimpan naskah dinas resmi yang diterbitkan unit kerja kampus.
 | `tanggal_surat` | `DATE` | NOT NULL |
 | `perihal` | `VARCHAR(255)`| NOT NULL |
 | `ringkasan` | `TEXT` | NULLABLE |
-| `penandatangan_id`| `UUID` | NOT NULL, Foreign Key `pegawai(id)` |
+| `jenis_surat`| `VARCHAR(100)` | NOT NULL |
 | `file_path` | `VARCHAR(255)`| NULLABLE |
 | `created_by` | `UUID` | NOT NULL, Foreign Key `users(id)` |
 | `created_at` | `TIMESTAMP` | NOT NULL, index |

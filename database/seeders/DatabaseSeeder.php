@@ -15,7 +15,12 @@ class DatabaseSeeder extends Seeder
             UnitKerjaSeeder::class,
             PegawaiSeeder::class,
             MasterNomorSuratSeeder::class,
+            MasterOpsiSeeder::class,
+            PengaturanDokumenSeeder::class,
             UserSeeder::class,
+            SuratMasukSeeder::class,
+            SuratKeluarSeeder::class,
+            ArsipDigitalSeeder::class,
         ]);
     }
 }

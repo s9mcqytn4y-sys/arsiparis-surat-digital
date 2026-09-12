@@ -23,6 +23,8 @@ class MasterNomorSurat extends Model
         'format_pola',
         'nomor_terakhir',
         'tahun',
+        'tanggal_dibuat',
+        'keterangan',
         'is_active',
     ];
 
@@ -34,6 +36,7 @@ class MasterNomorSurat extends Model
         return [
             'nomor_terakhir' => 'integer',
             'tahun' => 'integer',
+            'tanggal_dibuat' => 'date',
             'is_active' => 'boolean',
         ];
     }

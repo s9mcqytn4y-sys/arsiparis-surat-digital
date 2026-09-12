@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -21,6 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'avatar_path',
         'password',
         'unit_kerja_id',
         'role',
@@ -46,10 +48,44 @@ class User extends Authenticatable
     }
 
     /**
+     * Dapatkan URL avatar publik jika ada.
+     */
+    public function getAvatarUrlAttribute(): ?string
+    {
+        if ($this->avatar_path && Storage::disk('public')->exists($this->avatar_path)) {
+            return Storage::disk('public')->url($this->avatar_path);
+        }
+
+        return null;
+    }
+
+    /**
+     * Inisial nama pengguna (1-2 huruf).
+     */
+    public function getInitialsAttribute(): string
+    {
+        $words = explode(' ', trim($this->name));
+        $initials = '';
+        foreach (array_slice($words, 0, 2) as $w) {
+            $initials .= mb_substr($w, 0, 1);
+        }
+
+        return strtoupper($initials ?: 'U');
+    }
+
+    /**
      * @return BelongsTo<UnitKerja, $this>
      */
     public function unitKerja(): BelongsTo
     {
         return $this->belongsTo(UnitKerja::class, 'unit_kerja_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<Pegawai, $this>
+     */
+    public function pegawai(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Pegawai::class, 'email', 'email');
     }
 }

@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         $admin = User::create([
             'name' => 'Administrator Sistem TU',
             'email' => 'admin@universitas.ac.id',
-            'password' => Hash::make('AdminSurat2026!'),
+            'password' => Hash::make('password'),
             'unit_kerja_id' => $rektorat->id,
             'role' => 'super_admin',
             'is_active' => true,
@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
         $tuFtik = User::create([
             'name' => 'Staf Tata Usaha FTIK',
             'email' => 'tu.ftik@universitas.ac.id',
-            'password' => Hash::make('PetugasTU2026!'),
+            'password' => Hash::make('password'),
             'unit_kerja_id' => $fakultasTeknik->id,
             'role' => 'petugas_tu',
             'is_active' => true,
@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
         $dekanFtik = User::create([
             'name' => 'Dekan FTIK',
             'email' => 'dekan.ftik@universitas.ac.id',
-            'password' => Hash::make('Pimpinan2026!'),
+            'password' => Hash::make('password'),
             'unit_kerja_id' => $fakultasTeknik->id,
             'role' => 'pimpinan_unit',
             'is_active' => true,

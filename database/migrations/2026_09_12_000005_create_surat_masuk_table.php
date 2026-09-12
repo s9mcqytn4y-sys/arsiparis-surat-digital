@@ -19,7 +19,6 @@ return new class extends Migration
             $table->date('tanggal_surat');
             $table->date('tanggal_terima');
             $table->string('perihal');
-            $table->text('ringkasan')->nullable();
             $table->foreignUuid('disposisi_kepada')->nullable()->constrained('pegawai')->nullOnDelete();
             $table->text('instruksi_disposisi')->nullable();
             $table->string('status_disposisi', 30)->default('menunggu');

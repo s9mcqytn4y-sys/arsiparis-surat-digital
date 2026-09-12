@@ -67,7 +67,6 @@ test('formulir pencatatan surat masuk memvalidasi input wajib dan mengunggah ber
         ->set('perihal', 'Pedoman MBKM 2026')
         ->set('tanggalSurat', '2026-09-11')
         ->set('tanggalTerima', '2026-09-12')
-        ->set('ringkasan', 'Sosialisasi MBKM Semester Ganjil')
         ->set('unitKerjaId', $unit->id)
         ->set('berkas', $fakePdf)
         ->call('simpan')

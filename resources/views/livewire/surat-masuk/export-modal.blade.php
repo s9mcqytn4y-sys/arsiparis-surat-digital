@@ -1,10 +1,17 @@
 <div
-    class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-900/60 p-4 backdrop-blur-xs transition-opacity"
+    class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4 transition-opacity"
     role="dialog"
     aria-modal="true"
     aria-labelledby="modal-export-title"
 >
-    <div class="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-slate-900/10">
+    <!-- Backdrop Overlay -->
+    <div
+        class="fixed inset-0 bg-slate-900/60 transition-opacity"
+        aria-hidden="true"
+        wire:click="$dispatch('tutup-export-modal')"
+    ></div>
+
+    <div class="relative z-10 w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-slate-900/10">
         <!-- Modal Header -->
         <div class="flex items-center justify-between border-b border-slate-200 pb-4">
             <div>

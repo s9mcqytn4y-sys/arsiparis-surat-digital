@@ -7,14 +7,13 @@ namespace App\Livewire\SuratKeluar;
 use App\Actions\Documents\ValidateAndStoreDocumentAction;
 use App\Actions\Surat\GenerateNomorSuratAction;
 use App\Models\MasterNomorSurat;
-use App\Models\Pegawai;
+use App\Models\MasterOpsi;
 use App\Models\SuratKeluar;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -23,23 +22,43 @@ class Create extends Component
 {
     use WithFileUploads;
 
-    #[Validate('required|uuid|exists:master_nomor_surat,id')]
     public string $masterNomorSuratId = '';
 
-    #[Validate('required|uuid|exists:pegawai,id')]
-    public string $penandatanganId = '';
+    public string $jenisSurat = '';
 
-    #[Validate('required|string|max:255')]
+    public string $jenisSuratManual = '';
+
+    public bool $isCustomJenisSurat = false;
+
     public string $tujuanSurat = '';
 
-    #[Validate('required|date')]
+    public string $tujuanSuratManual = '';
+
+    public bool $isCustomTujuanSurat = false;
+
     public string $tanggalSurat = '';
 
-    #[Validate('required|string|max:255')]
     public string $perihal = '';
 
-    #[Validate('nullable|file|mimes:pdf|max:10240')]
-    public $berkas = null;
+    public mixed $berkas = null;
+
+    public function updatedJenisSurat(string $value): void
+    {
+        if ($value === '__custom__') {
+            $this->isCustomJenisSurat = true;
+        } else {
+            $this->isCustomJenisSurat = false;
+        }
+    }
+
+    public function updatedTujuanSurat(string $value): void
+    {
+        if ($value === '__custom__') {
+            $this->isCustomTujuanSurat = true;
+        } else {
+            $this->isCustomTujuanSurat = false;
+        }
+    }
 
     public function mount(): void
     {
@@ -52,6 +71,16 @@ class Create extends Component
                 $this->masterNomorSuratId = $master->id;
             }
         }
+
+        $opsiJenis = MasterOpsi::getOpsi('jenis_surat', $user->unit_kerja_id);
+        if (! empty($opsiJenis)) {
+            $this->jenisSurat = $opsiJenis[0];
+        }
+
+        $opsiTujuan = MasterOpsi::getOpsi('tujuan_surat', $user->unit_kerja_id);
+        if (! empty($opsiTujuan)) {
+            $this->tujuanSurat = $opsiTujuan[0];
+        }
     }
 
     public function simpan(
@@ -60,12 +89,70 @@ class Create extends Component
     ): void {
         Gate::authorize('create', SuratKeluar::class);
 
-        $this->validate();
+        $finalJenisSurat = $this->jenisSurat;
+        if ($this->jenisSurat === '__custom__' || $this->isCustomJenisSurat) {
+            $finalJenisSurat = trim($this->jenisSuratManual);
+        }
+
+        $finalTujuanSurat = $this->tujuanSurat;
+        if ($this->tujuanSurat === '__custom__' || $this->isCustomTujuanSurat) {
+            $finalTujuanSurat = trim($this->tujuanSuratManual);
+        }
+
+        $rules = [
+            'masterNomorSuratId' => ['required', 'uuid', 'exists:master_nomor_surat,id'],
+            'tanggalSurat' => ['required', 'date'],
+            'perihal' => ['required', 'string', 'max:255'],
+            'berkas' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
+        ];
+
+        if ($this->jenisSurat === '__custom__' || $this->isCustomJenisSurat) {
+            $rules['jenisSuratManual'] = ['required', 'string', 'max:100'];
+        } else {
+            $rules['jenisSurat'] = ['required', 'string', 'max:100'];
+        }
+
+        if ($this->tujuanSurat === '__custom__' || $this->isCustomTujuanSurat) {
+            $rules['tujuanSuratManual'] = ['required', 'string', 'max:255'];
+        } else {
+            $rules['tujuanSurat'] = ['required', 'string', 'max:255'];
+        }
+
+        $messages = [
+            'masterNomorSuratId.required' => 'Pola format penomoran surat wajib dipilih.',
+            'jenisSurat.required' => 'Jenis surat dinas wajib dipilih.',
+            'jenisSuratManual.required' => 'Jenis surat dinas secara manual wajib diisi.',
+            'tujuanSurat.required' => 'Pihak tujuan surat wajib dipilih.',
+            'tujuanSuratManual.required' => 'Pihak tujuan surat secara manual wajib diisi.',
+            'tanggalSurat.required' => 'Tanggal surat dinas wajib ditentukan.',
+            'perihal.required' => 'Perihal surat dinas wajib diisi.',
+            'berkas.mimes' => 'Berkas lampiran wajib berformat PDF (.pdf).',
+            'berkas.max' => 'Ukuran berkas lampiran maksimal 10 Megabyte (10MB).',
+        ];
+
+        $this->validate($rules, $messages);
+
+        if ($finalJenisSurat === '') {
+            $this->addError('jenisSurat', 'Jenis surat dinas tidak boleh kosong.');
+
+            return;
+        }
+
+        if ($finalTujuanSurat === '') {
+            $this->addError('tujuanSurat', 'Pihak tujuan surat tidak boleh kosong.');
+
+            return;
+        }
 
         $user = auth()->user();
+
+        // Save new options to MasterOpsi
+        MasterOpsi::simpanJikaBaru('jenis_surat', $finalJenisSurat, $user->unit_kerja_id, $user->id);
+        MasterOpsi::simpanJikaBaru('tujuan_surat', $finalTujuanSurat, $user->unit_kerja_id, $user->id);
+
         $master = MasterNomorSurat::with('unitKerja')->findOrFail($this->masterNomorSuratId);
 
-        DB::transaction(function () use ($master, $nomorAction, $documentAction, $user): void {
+        DB::transaction(function () use ($master, $nomorAction, $documentAction, $user, $finalJenisSurat, $finalTujuanSurat): void {
             $date = Carbon::parse($this->tanggalSurat);
             $nomorResult = $nomorAction->execute(
                 masterNomorId: $master->id,
@@ -80,8 +167,8 @@ class Create extends Component
             if ($this->berkas !== null) {
                 $storedDoc = $documentAction->execute($this->berkas, 'documents');
                 $filePath = $storedDoc->filePath;
-                $fileMime = $storedDoc->mimeType;
-                $fileSize = $storedDoc->sizeBytes;
+                $fileMime = $storedDoc->fileMime;
+                $fileSize = $storedDoc->fileSize;
             }
 
             SuratKeluar::create([
@@ -90,9 +177,9 @@ class Create extends Component
                 'nomor_surat' => $nomorResult->nomorSurat,
                 'kode_klasifikasi' => $nomorResult->kodeKlasifikasi,
                 'perihal' => $this->perihal,
-                'tujuan' => $this->tujuanSurat,
+                'tujuan' => $finalTujuanSurat,
                 'tanggal_surat' => $this->tanggalSurat,
-                'penandatangan_id' => $this->penandatanganId,
+                'jenis_surat' => $finalJenisSurat,
                 'file_path' => $filePath,
                 'file_mime' => $fileMime,
                 'file_size' => $fileSize,
@@ -115,11 +202,13 @@ class Create extends Component
             $masterQuery->where('unit_kerja_id', $user->unit_kerja_id);
         }
 
-        $pejabatList = Pegawai::where('is_active', true)->orderBy('nama')->get(['id', 'nama', 'nip_nidn', 'jabatan']);
+        $daftarJenisSurat = MasterOpsi::getOpsi('jenis_surat', $user->unit_kerja_id);
+        $daftarTujuanSurat = MasterOpsi::getOpsi('tujuan_surat', $user->unit_kerja_id);
 
         return view('livewire.surat-keluar.create', [
             'masterNomorList' => $masterQuery->get(),
-            'pejabatList' => $pejabatList,
+            'daftarJenisSurat' => $daftarJenisSurat,
+            'daftarTujuanSurat' => $daftarTujuanSurat,
         ]);
     }
 }

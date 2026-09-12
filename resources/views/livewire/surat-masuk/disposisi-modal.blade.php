@@ -1,10 +1,17 @@
 <div
-    class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-900/60 p-4 backdrop-blur-xs"
+    class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4"
     role="dialog"
     aria-modal="true"
     aria-labelledby="modal-disposisi-title"
 >
-    <div class="relative w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl transition">
+    <!-- Backdrop Overlay -->
+    <div
+        class="fixed inset-0 bg-slate-900/60 transition-opacity"
+        aria-hidden="true"
+        wire:click="$parent.tutupDisposisi"
+    ></div>
+
+    <div class="relative z-10 w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl transition">
         <div class="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
             <div>
                 <h2 id="modal-disposisi-title" class="text-lg font-bold text-slate-900">Lembar Instruksi Disposisi</h2>

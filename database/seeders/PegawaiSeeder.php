@@ -26,7 +26,6 @@ class PegawaiSeeder extends Seeder
             'golongan' => 'IV/e',
             'no_telepon' => '081122334455',
             'email' => 'rektor@universitas.ac.id',
-            'is_penandatangan' => true,
             'is_active' => true,
         ]);
 
@@ -39,7 +38,6 @@ class PegawaiSeeder extends Seeder
             'golongan' => 'IV/b',
             'no_telepon' => '081234567890',
             'email' => 'ka.baak@universitas.ac.id',
-            'is_penandatangan' => true,
             'is_active' => true,
         ]);
 
@@ -52,7 +50,6 @@ class PegawaiSeeder extends Seeder
             'golongan' => 'IV/a',
             'no_telepon' => '081398765432',
             'email' => 'dekan.ftik@universitas.ac.id',
-            'is_penandatangan' => true,
             'is_active' => true,
         ]);
 
@@ -65,7 +62,6 @@ class PegawaiSeeder extends Seeder
             'golongan' => 'III/c',
             'no_telepon' => '081512344321',
             'email' => 'kaprodi.ti@universitas.ac.id',
-            'is_penandatangan' => true,
             'is_active' => true,
         ]);
 
@@ -78,7 +74,6 @@ class PegawaiSeeder extends Seeder
             'golongan' => 'III/a',
             'no_telepon' => '082155667788',
             'email' => 'tu.ftik@universitas.ac.id',
-            'is_penandatangan' => false,
             'is_active' => true,
         ]);
     }

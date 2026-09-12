@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('format_pola');
             $table->unsignedInteger('nomor_terakhir')->default(0);
             $table->unsignedSmallInteger('tahun');
+            $table->date('tanggal_dibuat')->nullable();
+            $table->text('keterangan')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
 

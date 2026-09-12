@@ -120,16 +120,16 @@ test('komponen Livewire SuratKeluar Create memvalidasi input wajib dan menyimpan
     // 1. Validasi error jika field wajib kosong
     Livewire::test(Create::class)
         ->set('masterNomorSuratId', '')
-        ->set('penandatanganId', '')
+        ->set('jenisSurat', '')
         ->set('tujuanSurat', '')
         ->set('perihal', '')
         ->call('simpan')
-        ->assertHasErrors(['masterNomorSuratId', 'penandatanganId', 'tujuanSurat', 'perihal']);
+        ->assertHasErrors(['masterNomorSuratId', 'jenisSurat', 'tujuanSurat', 'perihal']);
 
     // 2. Submit data valid
     Livewire::test(Create::class)
         ->set('masterNomorSuratId', $master->id)
-        ->set('penandatanganId', $pejabat->id)
+        ->set('jenisSurat', 'Surat Tugas')
         ->set('tujuanSurat', 'Kepala LLDIKTI Wilayah IV')
         ->set('tanggalSurat', '2026-09-12')
         ->set('perihal', 'Laporan Pembukaan Program Studi Baru')
@@ -139,7 +139,7 @@ test('komponen Livewire SuratKeluar Create memvalidasi input wajib dan menyimpan
         ->assertRedirect(route('surat-keluar.index'));
 
     // Verifikasi data tersimpan di database
-    $suratKeluar = SuratKeluar::where('penandatangan_id', $pejabat->id)->first();
+    $suratKeluar = SuratKeluar::where('jenis_surat', 'Surat Tugas')->first();
     expect($suratKeluar)->not->toBeNull()
         ->and($suratKeluar->nomor_surat)->toBe('0001/HM.01.02/REK/IX/2026')
         ->and($suratKeluar->nomor_agenda)->toBe('REG-SK/2026/09/0001')

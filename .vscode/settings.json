@@ -48,6 +48,17 @@
         "blade": "html",
         "php": "html"
     },
+    "tailwindCSS.classAttributes": [
+        "class",
+        "className",
+        "ngClass",
+        "@class"
+    ],
+    "tailwindCSS.experimental.classRegex": [
+        ["@class\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+        ["class=[\"']([^\"']*)[\"']", "([a-zA-Z0-9_:-]+)"]
+    ],
+    "css.lint.unknownAtRules": "ignore",
 
     // ─── File Nesting (Clean Explorer) ────────────
     "explorer.fileNesting.enabled": true,

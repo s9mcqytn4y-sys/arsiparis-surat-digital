@@ -50,11 +50,10 @@ test('user authenticates and is assigned appropriate role and unit kerja', funct
         ->and($tuUser->unitKerja->kode_unit)->toBe('FTIK-01');
 });
 
-test('pegawai is linked to unit kerja and can be configured as authorized signer', function (): void {
+test('pegawai is linked to unit kerja and can be queried', function (): void {
     $rektor = Pegawai::where('nip_nidn', '196508121990031002')->first();
     expect($rektor)->not->toBeNull()
         ->and(Str::isUuid($rektor->id))->toBeTrue()
-        ->and($rektor->is_penandatangan)->toBeTrue()
         ->and($rektor->unitKerja->kode_unit)->toBe('REK-01');
 });
 
@@ -83,7 +82,6 @@ test('surat masuk and surat keluar relations maintain referential integrity with
         'tanggal_surat' => '2026-09-10',
         'tanggal_terima' => '2026-09-12',
         'perihal' => 'Monitoring Hibah Program Studi',
-        'ringkasan' => 'Permintaan data perkembangan hibah',
         'disposisi_kepada' => $pegawai->id,
         'instruksi_disposisi' => 'Mohon ditindaklanjuti bersama tim prodi.',
         'status_disposisi' => StatusDisposisi::Menunggu,
@@ -105,14 +103,13 @@ test('surat masuk and surat keluar relations maintain referential integrity with
         'tujuan' => 'Seluruh Dosen FTIK',
         'tanggal_surat' => '2026-09-12',
         'perihal' => 'Undangan Rapat Awal Semester Gasal 2026/2027',
-        'ringkasan' => 'Rapat koordinasi awal perkuliahan',
-        'penandatangan_id' => $pegawai->id,
+        'jenis_surat' => 'Surat Undangan',
         'created_by' => $tuUser->id,
     ]);
 
     expect($suratKeluar->id)->not->toBeNull()
         ->and(Str::isUuid($suratKeluar->id))->toBeTrue()
-        ->and($suratKeluar->penandatangan->id)->toBe($pegawai->id);
+        ->and($suratKeluar->jenis_surat)->toBe('Surat Undangan');
 
     // Arsip Digital
     $arsip = ArsipDigital::create([
@@ -131,6 +128,6 @@ test('surat masuk and surat keluar relations maintain referential integrity with
 
     expect($arsip->id)->not->toBeNull()
         ->and(Str::isUuid($arsip->id))->toBeTrue()
-        ->and($arsip->kategori)->toBe(KategoriArsip::SK_DEKAN)
+        ->and($arsip->kategori)->toBe(KategoriArsip::SK_DEKAN->value)
         ->and($arsip->pegawai->id)->toBe($pegawai->id);
 });

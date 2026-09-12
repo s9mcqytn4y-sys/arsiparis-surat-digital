@@ -6,6 +6,7 @@ namespace App\Livewire\SuratMasuk;
 
 use App\Actions\Documents\ValidateAndStoreDocumentAction;
 use App\Enums\StatusDisposisi;
+use App\Models\MasterOpsi;
 use App\Models\SuratMasuk;
 use App\Models\UnitKerja;
 use Carbon\Carbon;
@@ -13,7 +14,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -22,29 +22,32 @@ class Create extends Component
 {
     use WithFileUploads;
 
-    #[Validate('required|string|max:100')]
     public string $nomorSurat = '';
 
-    #[Validate('required|string|max:200')]
     public string $pengirim = '';
 
-    #[Validate('required|date')]
+    public string $pengirim_manual = '';
+
+    public bool $isCustomPengirim = false;
+
     public string $tanggalSurat = '';
 
-    #[Validate('required|date')]
     public string $tanggalTerima = '';
 
-    #[Validate('required|string|max:255')]
     public string $perihal = '';
 
-    #[Validate('nullable|string|max:1000')]
-    public string $ringkasan = '';
-
-    #[Validate('required|uuid|exists:unit_kerja,id')]
     public string $unitKerjaId = '';
 
-    #[Validate('required|file|mimes:pdf|max:10240')]
-    public $berkas = null;
+    public mixed $berkas = null;
+
+    public function updatedPengirim(string $value): void
+    {
+        if ($value === '__custom__') {
+            $this->isCustomPengirim = true;
+        } else {
+            $this->isCustomPengirim = false;
+        }
+    }
 
     public function mount(): void
     {
@@ -55,22 +58,69 @@ class Create extends Component
         if ($user->unit_kerja_id) {
             $this->unitKerjaId = $user->unit_kerja_id;
         }
+
+        $opsi = MasterOpsi::getOpsi('pengirim_surat', $user->unit_kerja_id);
+        if (! empty($opsi)) {
+            $this->pengirim = $opsi[0];
+        }
     }
 
     public function simpan(ValidateAndStoreDocumentAction $documentAction): void
     {
         Gate::authorize('create', SuratMasuk::class);
 
-        $this->validate();
+        $finalPengirim = $this->pengirim;
+        if ($this->pengirim === '__custom__' || $this->isCustomPengirim) {
+            $finalPengirim = trim($this->pengirim_manual);
+        }
+
+        $rules = [
+            'nomorSurat' => ['required', 'string', 'max:100'],
+            'tanggalSurat' => ['required', 'date'],
+            'tanggalTerima' => ['required', 'date'],
+            'perihal' => ['required', 'string', 'max:255'],
+            'unitKerjaId' => ['required', 'uuid', 'exists:unit_kerja,id'],
+            'berkas' => ['required', 'file', 'mimes:pdf', 'max:10240'],
+        ];
+
+        if ($this->pengirim === '__custom__' || $this->isCustomPengirim) {
+            $rules['pengirim_manual'] = ['required', 'string', 'max:200'];
+        } else {
+            $rules['pengirim'] = ['required', 'string', 'max:200'];
+        }
+
+        $messages = [
+            'nomorSurat.required' => 'Nomor naskah surat masuk wajib diisi.',
+            'pengirim.required' => 'Asal pengirim surat wajib dipilih.',
+            'pengirim_manual.required' => 'Asal pengirim surat secara manual wajib diisi.',
+            'tanggalSurat.required' => 'Tanggal naskah surat wajib diisi.',
+            'tanggalTerima.required' => 'Tanggal terima surat wajib diisi.',
+            'perihal.required' => 'Perihal naskah surat masuk wajib diisi.',
+            'unitKerjaId.required' => 'Unit kerja penerima wajib ditentukan.',
+            'berkas.required' => 'Berkas pindaian naskah PDF wajib diunggah.',
+            'berkas.mimes' => 'Berkas pindaian wajib berformat PDF (.pdf).',
+            'berkas.max' => 'Ukuran berkas pindaian maksimal 10 Megabyte (10MB).',
+        ];
+
+        $this->validate($rules, $messages);
+
+        if ($finalPengirim === '') {
+            $this->addError('pengirim', 'Asal pengirim surat tidak boleh kosong.');
+
+            return;
+        }
 
         $user = auth()->user();
+
+        // Save new sender to MasterOpsi
+        MasterOpsi::simpanJikaBaru('pengirim_surat', $finalPengirim, $user->unit_kerja_id, $user->id);
 
         // Enforce unit kerja jika user bukan super_admin
         $targetUnitId = $user->hasRole(['super_admin', 'rektor', 'wakil_rektor'])
             ? $this->unitKerjaId
             : (string) $user->unit_kerja_id;
 
-        DB::transaction(function () use ($documentAction, $targetUnitId, $user): void {
+        DB::transaction(function () use ($documentAction, $targetUnitId, $user, $finalPengirim): void {
             // Generate Nomor Agenda anti-race condition
             $year = Carbon::parse($this->tanggalTerima)->format('Y');
             $month = Carbon::parse($this->tanggalTerima)->format('m');
@@ -97,11 +147,10 @@ class Create extends Component
                 'unit_kerja_id' => $targetUnitId,
                 'nomor_agenda' => $nomorAgenda,
                 'nomor_surat' => $this->nomorSurat,
-                'pengirim' => $this->pengirim,
+                'pengirim' => $finalPengirim,
                 'tanggal_surat' => $this->tanggalSurat,
                 'tanggal_terima' => $this->tanggalTerima,
                 'perihal' => $this->perihal,
-                'ringkasan' => $this->ringkasan ?: null,
                 'status_disposisi' => StatusDisposisi::Menunggu,
                 'file_path' => $storedDoc->filePath,
                 'file_mime' => $storedDoc->fileMime,
@@ -118,10 +167,13 @@ class Create extends Component
     {
         Gate::authorize('create', SuratMasuk::class);
 
+        $user = auth()->user();
         $daftarUnit = UnitKerja::orderBy('nama_unit')->get(['id', 'nama_unit', 'kode_unit']);
+        $daftarPengirim = MasterOpsi::getOpsi('pengirim_surat', $user->unit_kerja_id);
 
         return view('livewire.surat-masuk.create', [
             'daftarUnit' => $daftarUnit,
+            'daftarPengirim' => $daftarPengirim,
         ]);
     }
 }

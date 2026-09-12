@@ -189,7 +189,7 @@
                     <th style="width: 75px;">Tgl Terima</th>
                     <th style="width: 140px;">No. Naskah & Tgl</th>
                     <th style="width: 150px;">Asal Pengirim</th>
-                    <th>Perihal & Ringkasan</th>
+                    <th>Perihal Naskah</th>
                     <th style="width: 110px;">Unit Pengelola</th>
                     <th style="width: 110px;">Disposisi Terakhir</th>
                     <th style="width: 75px;">Status</th>

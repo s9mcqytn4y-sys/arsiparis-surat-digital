@@ -26,7 +26,6 @@ class Pegawai extends Model
         'golongan',
         'no_telepon',
         'email',
-        'is_penandatangan',
         'is_active',
     ];
 
@@ -36,7 +35,6 @@ class Pegawai extends Model
     protected function casts(): array
     {
         return [
-            'is_penandatangan' => 'boolean',
             'is_active' => 'boolean',
         ];
     }
@@ -55,14 +53,6 @@ class Pegawai extends Model
     public function disposisiSuratMasuk(): HasMany
     {
         return $this->hasMany(SuratMasuk::class, 'disposisi_kepada');
-    }
-
-    /**
-     * @return HasMany<SuratKeluar, $this>
-     */
-    public function suratKeluarDitandatangani(): HasMany
-    {
-        return $this->hasMany(SuratKeluar::class, 'penandatangan_id');
     }
 
     /**
