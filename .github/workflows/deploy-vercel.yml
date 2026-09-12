@@ -9,24 +9,37 @@ jobs:
   deploy:
     name: Build & Deploy Demo to Vercel
     runs-on: ubuntu-latest
-    if: ${{ secrets.VERCEL_TOKEN != '' }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Check Vercel Token Availability
+        id: check-token
+        run: |
+          if [ -z "${{ secrets.VERCEL_TOKEN }}" ]; then
+            echo "has_token=false" >> $GITHUB_OUTPUT
+            echo "Notice: VERCEL_TOKEN secret is not set in GitHub repository. Automatic Vercel deployment relies on direct Vercel GitHub Git Integration."
+          else
+            echo "has_token=true" >> $GITHUB_OUTPUT
+          fi
+
       - name: Setup Node.js 22 LTS
+        if: steps.check-token.outputs.has_token == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'npm'
 
       - name: Install NPM Dependencies
+        if: steps.check-token.outputs.has_token == 'true'
         run: npm ci
 
       - name: Build Frontend Assets (Vite + Tailwind 4)
+        if: steps.check-token.outputs.has_token == 'true'
         run: npm run build
 
       - name: Deploy to Vercel (Production)
+        if: steps.check-token.outputs.has_token == 'true'
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
