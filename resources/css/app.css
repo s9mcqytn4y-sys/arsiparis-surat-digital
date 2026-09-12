@@ -2,9 +2,62 @@
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../vendor/filament/**/*.blade.php';
+@source '../../resources/views/**/*.blade.php';
+@source '../../app/Livewire/**/*.php';
 @source '../../storage/framework/views/*.php';
 
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Academic University Palette (Zero AI Slop - Slate/Navy/Emerald) */
+    --color-primary-50: #f0fdf4;
+    --color-primary-100: #dcfce7;
+    --color-primary-600: #16a34a;
+    --color-primary-700: #15803d;
+    --color-primary-800: #166534;
+
+    --color-univ-navy: #0f172a;
+    --color-univ-blue: #1e293b;
+    --color-univ-accent: #0284c7;
+    --color-univ-gold: #b45309;
+}
+
+/* Base Accessibility & Focus States */
+:focus-visible {
+    outline: 2px solid #0284c7;
+    outline-offset: 2px;
+}
+
+/* Academic Document Print Styling (@media print A4 Standard) */
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 20mm 15mm 20mm 15mm;
+    }
+
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 11pt !important;
+        line-height: 1.4 !important;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .print-only {
+        display: block !important;
+    }
+
+    .print-card {
+        border: 1px solid #000000 !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+    }
+
+    .kop-surat-border {
+        border-bottom: 3px double #000000 !important;
+    }
 }

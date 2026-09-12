@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SuratMasuk extends Model
 {
@@ -65,10 +66,34 @@ class SuratMasuk extends Model
     }
 
     /**
+     * @return BelongsTo<Pegawai, $this>
+     */
+    public function disposisiPegawai(): BelongsTo
+    {
+        return $this->belongsTo(Pegawai::class, 'disposisi_kepada');
+    }
+
+    /**
      * @return BelongsTo<User, $this>
      */
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function pembuat(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * @return HasMany<RiwayatDisposisi, $this>
+     */
+    public function riwayatDisposisi(): HasMany
+    {
+        return $this->hasMany(RiwayatDisposisi::class, 'surat_masuk_id')->orderBy('created_at', 'asc');
     }
 }
